@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pokémon · Cada peça da onda vira prova de execução</title>
+<meta name="description" content="Proposta da 75 LAB para a Pokémon: auditoria da próxima onda de material de loja com o sistema de QR da casa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#141B34;--blue:#2A4B9B;--yel:#FFCB05;--red:#D62F2F;--paper:#FFFDF5;--soft:#F3EFE0;--lime:#C0EE4E;--mut:#5A6078}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--paper);color:var(--ink);font-family:'Space Grotesk',system-ui,sans-serif;overflow:hidden}
+h1,h2,h3{font-family:'Big Shoulders Display',Impact,sans-serif;font-weight:900;letter-spacing:.2px;line-height:.98;text-transform:none}
+em{font-style:normal;color:var(--red)}
+#stage{position:fixed;left:50%;top:50%;width:1600px;height:900px;transform-origin:center center;overflow:hidden;background:var(--paper)}
+.slide{position:absolute;inset:0;width:1600px;height:900px;opacity:0;visibility:hidden;transform:translateX(60px) scale(.985);transition:opacity .55s ease,transform .55s ease,visibility 0s .55s;overflow:hidden}
+.slide.on{opacity:1;visibility:visible;transform:none;transition:opacity .55s ease,transform .55s ease,visibility 0s}
+.slide.past{transform:translateX(-60px) scale(.985)}
+.hdr{position:absolute;left:64px;top:40px;display:flex;gap:22px;align-items:center;z-index:5}
+.hdr img{height:44px;width:auto;display:block}
+.hdr i{width:1px;height:30px;background:rgba(20,27,52,.25)}
+.hdr.w img.l75{filter:invert(1)}
+.pg{position:absolute;right:64px;top:48px;font:500 18px 'Space Grotesk';color:var(--mut);z-index:5}
+.fonte{position:absolute;left:64px;bottom:26px;font:400 12px/1.3 'Space Grotesk';color:#7a7f94;max-width:1100px;z-index:5}
+.st{opacity:0;transform:translateY(22px)}
+.on .st{animation:up .7s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--i,0)*110ms + 200ms)}
+@keyframes up{to{opacity:1;transform:none}}
+.k{font:700 15px 'Space Grotesk';letter-spacing:.18em;text-transform:uppercase;color:var(--blue)}
+.tag{display:inline-block;background:var(--yel);color:var(--ink);font:700 14px 'Space Grotesk';letter-spacing:.08em;text-transform:uppercase;padding:7px 14px;border-radius:99px}
+.tag.lime{background:var(--lime)}
+.lede{font-size:26px;line-height:1.35;color:#2b3150;max-width:640px}
+.t-xl{font-size:104px}.t-l{font-size:84px}.t-m{font-size:68px}
+img.z{cursor:zoom-in}
+.roteiro{display:none}
+/* capa */
+#s1{background:var(--paper)}
+#s1 .bg{position:absolute;right:0;top:0;width:820px;height:900px;background:#000 center/cover no-repeat;clip-path:inset(0);animation:kb 22s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.09) translate(-1.5%,-1%)}}
+#s1 .veil{display:none}
+#s1 .tx{position:absolute;left:64px;top:190px;width:700px}
+#s1 h1{font-size:124px;margin:18px 0 26px}
+/* s2 */
+.cols2{position:absolute;left:64px;right:64px;top:150px;display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.pessoa{border-top:6px solid var(--yel);padding-top:18px}
+.pessoa h3{font-size:48px;margin-bottom:6px}
+.pessoa p{font-size:21px;line-height:1.4;color:#2b3150}
+.marcas{position:absolute;left:64px;right:64px;bottom:96px;display:flex;gap:44px;align-items:center;flex-wrap:wrap}
+.marcas img{height:46px;max-width:150px;object-fit:contain;filter:grayscale(1);opacity:.8}
+.marcas span{font:700 24px 'Big Shoulders Display';color:#6a6f86;letter-spacing:.04em;text-transform:uppercase}
+.num{font-family:'Big Shoulders Display';font-weight:900}
+/* s3 */
+#s3{background:var(--soft)}
+.tl{position:absolute;left:64px;right:64px;top:470px;display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.tl>div{position:relative;padding-top:42px}
+.tl>div:before{content:"";position:absolute;left:0;top:10px;width:18px;height:18px;border-radius:50%;background:var(--blue)}
+.tl>div:after{content:"";position:absolute;left:18px;right:-28px;top:18px;height:2px;background:rgba(20,27,52,.2)}
+.tl>div:last-child:before{background:var(--red)}.tl>div:last-child:after{display:none}
+.tl .d{font:700 15px 'Space Grotesk';letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+.tl h3{font-size:40px;margin:6px 0 8px}
+.tl p{font-size:20px;line-height:1.35;color:#2b3150}
+.tl .num{font-size:92px;line-height:1;color:var(--blue)}
+/* s4 */
+.dg{position:absolute;left:64px;right:64px;top:360px;height:420px}
+.node{position:absolute;width:330px;padding:26px 28px;border-radius:22px;background:#fff;border:3px solid var(--ink)}
+.node h3{font-size:44px}.node p{font-size:20px;color:#3a405c;margin-top:6px;line-height:1.3}
+.node.a{left:0;top:40px;background:var(--yel)}.node.b{left:600px;top:40px}.node.c{right:0;top:40px;width:340px}
+.dg svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.dg path{fill:none;stroke-width:5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.on .dg path{animation:draw 1.1s ease forwards}
+.on .dg path.p1{animation-delay:.9s}.on .dg path.p2{animation-delay:1.6s}.on .dg path.p3{animation-delay:2.3s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.dg .lbl{position:absolute;font:700 20px 'Space Grotesk';opacity:0}
+.on .dg .lbl{animation:up .6s forwards}
+.lbl.l1{left:360px;top:20px;color:var(--ink)}.lbl.l2{left:940px;top:20px;color:var(--ink)}
+.lbl.l3{left:560px;top:330px;color:var(--red);animation-delay:2.2s!important}.lbl.l4{left:520px;top:395px;color:#2c6b00;animation-delay:2.9s!important;font-size:22px}
+/* s5 */
+#s5 .ph{position:absolute;right:0;top:0;width:960px;height:900px}
+#s5 .tx{position:absolute;left:64px;top:170px;width:560px}
+.hot{position:absolute;width:34px;height:34px;border-radius:50%;background:var(--lime);border:3px solid var(--ink);cursor:pointer;transform:translate(-50%,-50%);z-index:3}
+.hot:after{content:"";position:absolute;inset:-12px;border-radius:50%;border:3px solid var(--lime);animation:pulse 1.8s infinite}
+@keyframes pulse{from{transform:scale(.6);opacity:1}to{transform:scale(1.5);opacity:0}}
+.hot b{position:absolute;left:46px;top:-8px;width:330px;background:var(--ink);color:#fff;font:500 18px/1.35 'Space Grotesk';padding:12px 16px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s}
+.hot:hover b,.hot.open b,.hot:focus b{opacity:1}
+/* s6 */
+#s6{background:var(--lime)}
+.phones{position:absolute;left:640px;right:40px;top:96px;display:flex;gap:30px;justify-content:center}
+.ph2{width:330px;height:714px;border-radius:40px;border:10px solid var(--ink);background:#fff;overflow:hidden;position:relative;box-shadow:0 22px 50px rgba(0,0,0,.22)}
+.ph2 img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.ph2.m{margin-top:46px}
+.steps{position:absolute;left:64px;top:600px;width:520px;display:grid;gap:16px}
+.steps div{display:flex;gap:16px;align-items:center;font-size:24px;font-weight:500}
+.steps b{width:46px;height:46px;border-radius:50%;background:var(--ink);color:var(--lime);display:grid;place-items:center;font:900 24px 'Big Shoulders Display'}
+/* s7 */
+#s7{background:#101523;color:#fff}
+#s7 .k{color:var(--lime)}#s7 em{color:var(--yel)}
+#s7 .pg,#s7 .fonte{color:#9aa0b8}
+.scr{position:absolute;left:64px;top:300px;width:1056px;height:495px;border-radius:14px;overflow:hidden;border:2px solid rgba(255,255,255,.2);background:#fff}
+.scr img{width:100%;height:100%;object-fit:cover;object-position:top;display:none}
+.scr img.on{display:block}
+.tabs{position:absolute;left:64px;top:240px;display:flex;gap:10px}
+.tabs button{font:700 17px 'Space Grotesk';background:transparent;color:#fff;border:2px solid rgba(255,255,255,.35);border-radius:99px;padding:10px 20px;cursor:pointer;min-height:44px}
+.tabs button.on{background:var(--lime);color:#101523;border-color:var(--lime)}
+.side7{position:absolute;left:1160px;top:300px;width:380px}
+.side7 li{list-style:none;font-size:22px;line-height:1.3;margin-bottom:20px;padding-left:36px;position:relative}
+.side7 li:before{content:"";position:absolute;left:0;top:7px;width:18px;height:18px;border-radius:50%;background:var(--lime)}
+.side7 .tag{margin-bottom:22px}
+/* s8 */
+#s8 .ph{position:absolute;left:0;top:0;width:700px;height:900px}
+#s8 .tx{position:absolute;left:770px;top:150px;width:770px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:34px}
+.duo>div{background:var(--soft);border-radius:20px;padding:24px;border-top:6px solid var(--blue)}
+.duo>div+div{border-top-color:var(--red)}
+.duo h3{font-size:36px;margin-bottom:8px}.duo p{font-size:20px;line-height:1.35;color:#2b3150}
+.ic{width:56px;height:56px;margin-bottom:10px}
+.ic *{fill:none;stroke:var(--blue);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.duo>div+div .ic *{stroke:var(--red)}
+.ic .pul{transform-box:fill-box;transform-origin:center;animation:pulse2 2s infinite}
+@keyframes pulse2{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+/* s9 */
+#s9{background:var(--yel)}
+.big5{position:absolute;left:64px;top:170px;font-size:420px;line-height:.8;color:var(--ink)}
+.five{position:absolute;left:640px;top:150px;right:64px;display:grid;gap:14px}
+.five div{background:#fff;border-radius:16px;padding:16px 24px;display:grid;grid-template-columns:70px 1fr 1fr;gap:18px;align-items:center;border:3px solid var(--ink)}
+.five .n{font:900 44px 'Big Shoulders Display';color:var(--red)}
+.five b{font-size:25px}.five span{font-size:18px;color:#3a405c;line-height:1.3}
+/* s10 */
+.map{position:absolute;left:64px;top:170px;width:880px;height:580px;border-radius:16px;overflow:hidden;border:3px solid var(--ink)}
+.map img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.qs{position:absolute;left:1000px;right:64px;top:170px;display:grid;gap:18px}
+.q{background:var(--soft);border-radius:18px;padding:22px 26px;border-left:8px solid var(--blue)}
+.q:nth-child(2){border-left-color:var(--yel)}.q:nth-child(3){border-left-color:var(--red)}
+.q h3{font-size:38px}.q p{font-size:19px;color:#3a405c;margin-top:6px;line-height:1.35}
+/* s11 */
+#s11{background:var(--soft)}
+.cr{position:absolute;left:64px;right:64px;top:360px}
+.line{height:8px;background:rgba(20,27,52,.15);border-radius:4px;position:relative;margin-bottom:0}
+.line i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--blue);border-radius:4px}
+.on .line i{animation:fill 3.4s .5s ease forwards}
+@keyframes fill{to{width:100%}}
+.ond{display:grid;grid-template-columns:1.25fr 1.3fr 1fr 1fr;gap:26px;margin-top:-22px}
+.ond>div{padding-top:62px;position:relative}
+.ond>div:before{content:"";position:absolute;left:0;top:10px;width:30px;height:30px;border-radius:50%;background:#fff;border:6px solid var(--blue)}
+.ond>div:nth-child(2):before{border-color:var(--red)}
+.ond>div:nth-child(3):before{border-color:var(--yel)}.ond>div:nth-child(4):before{border-color:#4a9b1f}
+.ond .w{font:700 15px 'Space Grotesk';letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+.ond h3{font-size:44px;margin:4px 0 12px}
+.ond li{list-style:none;font-size:20px;line-height:1.3;margin-bottom:10px;color:#2b3150;padding-left:18px;position:relative}
+.ond li:before{content:"";position:absolute;left:0;top:9px;width:8px;height:8px;background:var(--ink);border-radius:50%}
+.par{display:inline-block;margin-top:6px;font:700 14px 'Space Grotesk';color:var(--red);letter-spacing:.06em;text-transform:uppercase}
+/* s12 */
+#s12{background:var(--blue);color:#fff}
+#s12 .pg,#s12 .fonte{color:#c9d3f2}
+#s12 h1{font-size:150px;position:absolute;left:64px;top:150px;width:1100px}
+#s12 h1 em{color:var(--yel)}
+.inst{position:absolute;left:64px;bottom:60px;display:grid;grid-template-columns:repeat(3,auto);gap:12px 56px;font-size:18px;line-height:1.4;color:#e5ebff}
+.inst b{display:block;font:700 13px 'Space Grotesk';letter-spacing:.16em;text-transform:uppercase;color:var(--yel);margin-bottom:2px}
+.wa{position:absolute;right:64px;top:520px;background:var(--lime);color:var(--ink);font:700 28px 'Space Grotesk';padding:26px 40px;border-radius:99px;text-decoration:none;min-height:44px}
+.wa:hover{transform:scale(1.04)}
+.logo-card{position:absolute;right:64px;top:150px;width:360px;background:#fff;border-radius:20px;padding:26px;text-align:center}
+.logo-card img{max-width:100%;height:auto;display:block;margin:0 auto 12px}
+.logo-card p{color:var(--ink);font-size:18px}
+/* nav */
+#nav{position:fixed;left:0;right:0;bottom:0;height:5px;background:rgba(20,27,52,.12);z-index:50}
+#nav i{display:block;height:100%;width:0;background:var(--red);transition:width .5s}
+.btn{position:fixed;top:50%;z-index:60;width:52px;height:52px;border-radius:50%;border:0;background:rgba(20,27,52,.85);color:#fff;font-size:24px;cursor:pointer;transform:translateY(-50%)}
+#prev{left:10px}#next{right:10px}
+#rot{position:fixed;left:0;right:0;bottom:0;max-height:36vh;overflow:auto;background:var(--ink);color:#fff;padding:22px 40px;font-size:18px;line-height:1.5;z-index:70;display:none}
+#rot.show{display:block}
+#lb{position:fixed;inset:0;background:rgba(10,12,24,.88);z-index:100;display:none;align-items:center;justify-content:center;cursor:zoom-out}
+#lb.show{display:flex}#lb img{max-width:92vw;max-height:92vh;border-radius:8px}
+#cur{position:fixed;left:0;top:0;width:16px;height:16px;border-radius:50%;background:var(--red);border:2px solid var(--yel);z-index:200;pointer-events:none;transform:translate(-50%,-50%);transition:width .2s,height .2s}
+#cur.big{width:44px;height:44px}
+@media (hover:none){#cur{display:none}}
+@media (max-width:899px){.tag,.k,.par,.inst b,.ex,.w{font-size:16px!important}#s7,#s12{background:var(--paper)!important;color:var(--ink)!important}#s7 em,#s9 em,#s12 em{color:var(--red)!important}#s7 .k{color:var(--blue)}#s12 .logo-card{display:none}#s12 h1{color:var(--ink)}#s7 .pg,#s12 .pg,#s7 .fonte,#s12 .fonte{color:#5a6078}#s12 .inst{color:#2b3150}#s12 .inst b{color:var(--blue)}#s7 .tabs button{color:var(--ink);border-color:rgba(20,27,52,.4)}#s7 .tabs button.on{color:var(--ink)}#s9 h2 span{color:var(--ink)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.st{opacity:1;transform:none}.dg path{stroke-dashoffset:0}.line i{width:100%}.dg .lbl{opacity:1}}
+/* celular e tablet */
+@media (max-width:899px){
+ html,body{overflow:auto;height:auto}
+ #stage{position:static;width:100%;height:auto;transform:none!important;overflow:visible}
+ .slide{position:relative;width:100%;height:auto;opacity:1;visibility:visible;transform:none;padding:84px 22px 56px;border-bottom:1px solid rgba(20,27,52,.12);overflow:hidden}
+ .slide *{max-width:100%}
+ .slide>*{position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;width:auto!important;height:auto!important;margin-top:20px}
+ .slide>.hdr{position:absolute!important;left:22px!important;top:24px!important;margin:0}
+ .slide>.pg{position:absolute!important;right:22px!important;top:30px!important;margin:0}
+ .st{opacity:1;transform:none}
+ .hdr img{height:32px}
+ h1,.t-xl,.t-l,.t-m{font-size:42px!important}h2{font-size:38px!important}
+ .lede{font-size:18px}
+ #s1 .bg{position:relative!important;height:300px!important;width:100%!important;animation:none;order:2}
+ #s1 .veil{display:none}
+ #s1{display:flex;flex-direction:column}
+ #s1 .tx{width:auto!important}
+ .cols2,.duo,.tl,.ond,.five div{display:grid;grid-template-columns:1fr!important;gap:18px}
+ .five div{grid-template-columns:50px 1fr!important}.five span{grid-column:2}
+ .marcas{gap:20px}.marcas img{height:34px}
+ .tl>div:after,.tl>div:before{display:none}.tl>div{padding-top:0}
+ .dg{height:auto!important;display:grid;gap:16px}
+ .dg svg,.dg .lbl{display:none}
+ .node{position:relative!important;width:auto!important;left:auto!important;right:auto!important;top:auto!important}
+ .node h3{font-size:34px}.node p{font-size:17px}
+ #s5 .ph,#s8 .ph{position:relative!important;width:100%!important;height:340px!important;background-position:center}
+ .hot{display:none}
+ .phones{display:flex;flex-direction:column;align-items:center;gap:20px}
+ .ph2{width:300px;height:640px}.ph2.m{margin-top:0}
+ .steps div{font-size:18px}
+ .scr{height:auto!important}.scr img{height:auto;object-fit:contain}
+ .tabs{flex-wrap:wrap}.tabs button{font-size:16px}
+ .side7 li,.five b,.q p,.duo p,.ond li,.pessoa p,.tl p{font-size:17px}
+ .big5{font-size:200px;line-height:.9}
+ .map{height:auto!important}.map img{height:auto}
+ .ond>div{padding-top:0}.ond>div:before{display:none}.line{display:none}
+ .cr{margin-top:10px}
+ #s12 h1{font-size:50px!important;width:auto!important}
+ .inst{grid-template-columns:1fr;font-size:17px}
+ .wa{display:block;text-align:center;font-size:22px;padding:20px}
+ .logo-card{display:none}
+ .btn,#cur,#nav{display:none}
+ .fonte{position:relative!important;font-size:12px;max-width:100%}
+ .roteiro{display:none}
+}
+</style>
+</head>
+<body data-cliente="Pokémon">
+<div id="stage">
+
+<!-- 1 CAPA -->
+<section class="slide on" id="s1">
+ <div class="bg"><img src="assets/01-oficina-1792170978923-display-balcao.jpg" alt="Display de balcão Pokémon com boosters e decks" style="width:100%;height:100%;object-fit:cover;display:block"></div><div class="veil"></div>
+ <div class="hdr"><img src="assets/02-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/03-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div>
+ <div class="pg">01 / 12</div>
+ <div class="tx">
+  <span class="tag st" style="--i:0">Proposta para a Pokémon · outubro de 2026</span>
+  <h1 class="st" style="--i:1">Cada peça da onda vira <em>prova</em> de execução.</h1>
+  <p class="lede st" style="--i:2">A Pokémon investe no material. Agora ela vê onde ele chegou.</p>
+ </div>
+ <aside class="roteiro" hidden>Gabriela, a Pokémon investe no material de loja e a COPAG executa a próxima onda. A pergunta que trazemos é simples: como a Pokémon sabe que o investimento chegou à loja, e quais lojas vendem os produtos dela? A nossa resposta usa o sistema de QR que a 75 LAB já opera. Uma etiqueta discreta, na base ou no verso de cada peça, lida só por quem instala. Eu sou o Daniel, da 75 LAB, e vou mostrar o sistema funcionando, tela por tela. Antes, rapidamente, quem somos e o que já fizemos juntos.</aside>
+</section>
+
+<!-- 2 75 LAB -->
+<section class="slide" id="s2">
+ <div class="hdr"><img src="assets/02-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/03-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">02 / 12</div>
+ <h2 class="t-l" style="position:absolute;left:64px;top:104px;width:1300px"><span class="st" style="--i:0;display:block">Quem desenha a peça já teve de <em>instalar</em> e cobrar peça igual.</span></h2>
+ <div class="cols2" style="top:350px">
+  <div class="pessoa st" style="--i:1"><h3>Caique Becker</h3><p class="k" style="margin-bottom:8px">Cofundador · Head de Trade</p><p>Veio do varejo. Conhece o ponto de venda por quem opera a loja: layout, execução e a régua que aprova ou barra a iniciativa da indústria.</p></div>
+  <div class="pessoa st" style="--i:2"><h3>Daniel Coimbra</h3><p class="k" style="margin-bottom:8px">Cofundador · CEO</p><p>Veio da indústria. Pensa a marca pelo resultado: lançamento, categoria e estratégia comercial que precisa virar venda na ponta.</p></div>
+ </div>
+ <div class="marcas st" style="--i:3"><span style="color:var(--blue)">Marcas que confiam na 75 LAB</span><img src="assets/04-logo-1791747187168.svg" alt="Logo Petz"><img src="assets/05-logo-1791767893295.png" alt="Logo Coop"><img src="assets/06-logo-1791747186188.png" alt="Logo Capital das Cestas"><img src="assets/07-logo-1792160197807.svg" alt="Logo LG"><span>Riachuelo</span><span>TCL</span><span>Grupo Pereira</span><span>Drogarias DPSP</span></div>
+ <div class="fonte">Fonte: trajetória dos sócios e carteira de clientes da 75 LAB, 2025 e 2026.</div>
+ <aside class="roteiro" hidden>A 75 LAB nasceu de dois lados que quase nunca se sentam à mesma mesa. O Caique veio do varejo e conhece o ponto de venda por quem opera a loja. Eu vim da indústria e penso a marca pelo resultado. São mais de quinze anos vivendo a distância entre o que a marca quer e o que acontece na loja. Por isso, quem desenha a nossa solução já teve de aprovar, instalar e cobrar uma peça igual. Fazemos estratégia de PDV, materiais, rastreamento de execução com QR e plataformas próprias. Mas o que já fizemos juntos, Gabriela?</aside>
+</section>
+
+<!-- 3 HISTÓRIA -->
+<section class="slide" id="s3">
+ <div class="hdr"><img src="assets/02-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/03-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">03 / 12</div>
+ <h2 class="t-l" style="position:absolute;left:64px;top:130px;width:1300px"><span class="st" style="--i:0;display:block">Já olhamos a loja de cartas por dentro. <em>Falta provar a execução.</em></span></h2>
+ <div class="tl">
+  <div class="st" style="--i:1"><span class="d">Jun/2026</span><h3>Análise de potencial em PDV</h3><p>Visibilidade e compra por impulso no ponto de venda.</p></div>
+  <div class="st" style="--i:2"><span class="d">05/08/2026</span><h3>Jornada do Treinador</h3><div class="num"><span data-conta="4">4</span></div><p>territórios de loja para organizar o canal.</p></div>
+  <div class="st" style="--i:3"><span class="d">Set/2026</span><h3>Pesquisa Retail</h3><div class="num"><span data-conta="69">69</span></div><p>lojas em <b><span data-conta="28">28</span> cidades</b>, com coleta de foto, GPS e data.</p></div>
+  <div class="st" style="--i:4"><span class="d">Agora</span><h3>Auditoria da próxima onda</h3><p>O mesmo olhar de campo, agora sobre o material que a Pokémon financia e a COPAG instala.</p></div>
+ </div>
+ <div class="fonte">Fonte: projetos da 75 LAB para a Pokémon em 2026 (Análise de potencial em PDV, Jornada do Treinador e roteiro da Pesquisa Retail).</div>
+ <aside class="roteiro" hidden>Nossa história com a Pokémon já tem três capítulos. Em junho, a Análise de potencial em PDV, sobre visibilidade e compra por impulso. Em cinco de agosto, a Jornada do Treinador, com quatro territórios de loja para organizar o canal. Em setembro, o roteiro da Pesquisa Retail: sessenta e nove lojas, vinte e oito cidades, com foto, GPS e data. Esse é o nosso jeito de olhar a loja. O quarto capítulo é a auditoria do material da próxima onda. E o desafio dele começa numa pergunta simples sobre quem sabe o quê.</aside>
+</section>
+
+<!-- 4 DIAGRAMA -->
+<section class="slide" id="s4">
+ <div class="hdr"><img src="assets/02-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/03-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">04 / 12</div>
+ <h2 class="t-l" style="position:absolute;left:64px;top:120px;width:1380px"><span class="st" style="--i:0;display:block">A Pokémon paga o material, mas <em>não enxerga</em> onde ele foi parar.</span></h2>
+ <div class="dg">
+  <div class="node a st" style="--i:1"><span class="k" style="color:var(--ink)">Investe</span><h3>Pokémon</h3><p>Paga o material de ponto de venda.</p></div>
+  <div class="node b st" style="--i:2"><span class="k">Executa</span><h3>COPAG</h3><p>Instala nas lojas e não precisa compartilhar o dado.</p></div>
+  <div class="node c st" style="--i:3"><span class="k">Vende</span><h3>Loja</h3><p>Onde o material deveria estar, e o shopper decide.</p></div>
+  <svg viewBox="0 0 1472 420" preserveAspectRatio="none">
+   <path class="p1" pathLength="1" d="M335 120 L595 120" stroke="#141B34"/>
+   <path class="p2" pathLength="1" d="M935 120 L1130 120" stroke="#141B34"/>
+   <path class="p3" pathLength="1" d="M1300 215 C1300 380 300 380 170 215" stroke="#4a9b1f" style="stroke-dasharray:1"/>
+  </svg>
+  <div class="lbl l1">paga e entrega</div><div class="lbl l2">instala</div>
+  <div class="lbl l3">hoje o dado para aqui</div><div class="lbl l4">QR na base da peça + painel: o caminho de volta, da loja para a Pokémon</div>
+ </div>
+ <div class="fonte">Fonte: briefing da Pokémon à 75 LAB, 16/10/2026.</div>
+ <aside class="roteiro" hidden>Este é o desenho do problema. A Pokémon é dona do investimento no material de ponto de venda. A COPAG executa nas lojas e não tem a obrigação de compartilhar o dado das lojas. Então a Pokémon paga, a peça segue, mas o caminho de volta não existe. Ela não sabe quando cada peça foi instalada, em quais lojas, nem se a execução foi competente. E também não sabe quais lojas vendem os produtos dela. Nossa proposta desenha esse caminho de volta, usando o sistema de QR que já operamos, sem pedir nada a mais para o consumidor.</aside>
+</section>
+
+<!-- 5 QR NA BASE -->
+<section class="slide" id="s5">
+ <div class="hdr"><img src="assets/02-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/03-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg" style="color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.5)">05 / 12</div>
+ <div class="tx">
+  <span class="k st" style="--i:0">A etiqueta</span>
+  <h2 class="t-l st" style="--i:1;margin:12px 0 22px">O shopper não vê o QR. <em>O instalador sempre vê.</em></h2>
+  <p class="lede st" style="--i:2">Etiqueta na base ou no verso de cada peça, colada antes da expedição. Nunca na frente.</p>
+ </div>
+ <div class="ph"><img class="z" src="assets/08-oficina-1792171167978-verso.jpg" alt="Display de balcão visto por trás, com a etiqueta de QR na base" style="width:100%;height:100%;object-fit:cover;object-position:30% center;display:block"></div>
+ <button class="hot" style="left:1076px;top:617px" aria-label="Ver detalhe da etiqueta"><b>Etiqueta de cerca de 4 x 5 cm, na base, voltada para trás. Só o instalador chega até ela.</b></button>
+ <div class="fonte">Fonte: proposta 75 LAB para a Pokémon; sistema Produtos 75 LAB.</div>
+ <aside class="roteiro" hidden>Uma regra que o Caique deixou clara: o QR nunca é aplicado para o cliente ver. Ele fica sempre na base ou no verso da peça. Na foto, o display de balcão visto por trás: a etiqueta fica na parte baixa, voltada para a parede, com cerca de quatro por cinco centímetros. Quem lê é o instalador da COPAG, no fim da montagem, e o auditor, em uma revisita. O shopper nunca é o leitor. Toquem no ponto para ver o detalhe. A etiqueta é gerada pelo nosso sistema e colada na expedição. Mas o que o instalador vê quando lê?</aside>
+</section>
+
+<!-- 6 SISTEMA CELULAR -->
+<section class="slide" id="s6">
+ <div class="hdr"><img src="assets/02-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/03-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">06 / 12</div>
+ <div style="position:absolute;left:64px;top:130px;width:540px">
+  <span class="tag st" style="--i:0">Sistema Produtos 75 LAB · exemplo Pokémon</span>
+  <h2 class="t-m st" style="--i:1;margin-top:20px">Em um minuto o instalador confere a montagem e <em style="color:var(--ink);text-decoration:underline">registra a loja</em>.</h2>
+ </div>
+ <div class="steps st" style="--i:3"><div><b>1</b>Lê o QR com a câmera, sem baixar app</div><div><b>2</b>Confere montagem, medidas e checklist</div><div><b>3</b>Informa a loja e tira a foto da fachada</div></div>
+ <div class="phones">
+  <div class="ph2 st" style="--i:2"><img class="z" src="assets/09-oficina-1792170976386-sys-p0.jpg" alt="Página da peça aberta pelo QR, com objetivo e passo a passo"></div>
+  <div class="ph2 m st" style="--i:3"><img class="z" src="assets/10-oficina-1792170977387-sys-m1.jpg" alt="Formulário de registro da instalação"></div>
+  <div class="ph2 st" style="--i:4"><img class="z" src="assets/11-oficina-1792170978245-sys-m2.jpg" alt="Confirmação de instalação registrada"></div>
+ </div>
+ <div class="fonte">Fonte: sistema Produtos 75 LAB, páginas reais com dados de exemplo (loja e equipe fictícias).</div>
+ <aside class="roteiro" hidden>Estas são telas reais do nosso sistema, aqui com um exemplo Pokémon. O instalador lê o QR com a câmera, sem baixar aplicativo. A primeira tela mostra a peça, o objetivo e o passo a passo da montagem. Depois ele informa a loja e a rede, tira a foto da fachada, e a localização é registrada. A terceira tela confirma: instalação registrada. É isso que comprova a execução no painel. O telefone do instalador fica guardado, e a página avisa sobre a coleta. Clique em qualquer tela para ampliar. E o que a Pokémon enxerga do outro lado?</aside>
+</section>
+
+<!-- 7 PAINEL -->
+<section class="slide" id="s7">
+ <div class="hdr w"><img src="assets/02-oficina-1792159617893-logo.png" alt="Logo Pokémon" style="background:#fff;border-radius:8px;padding:4px 8px"><i style="background:rgba(255,255,255,.3)"></i><img class="l75" src="assets/03-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB" style="filter:invert(1)"></div><div class="pg">07 / 12</div>
+ <h2 class="t-m" style="position:absolute;left:64px;top:110px;width:1400px"><span class="st" style="--i:0;display:block">A Pokémon acompanha a onda <em>ao vivo</em>, sem login.</span></h2>
+ <div class="tabs st" style="--i:1"><button class="on" data-t="0">Indicadores</button><button data-t="1">Ritmo e positivação</button><button data-t="2">Mapa e link do cliente</button></div>
+ <div class="scr st" style="--i:2"><img class="z on" src="assets/12-oficina-1792170973287-sys-d0.jpg" alt="Painel de instalações: indicadores de lojas positivadas"><img class="z" src="assets/13-oficina-1792170974493-sys-d1.jpg" alt="Painel: ritmo de execução e positivação por rede"><img class="z" src="assets/14-oficina-1792170975495-sys-d3.jpg" alt="Painel: mapa das lojas e criação de link para o cliente"></div>
+ <ul class="side7 st" style="--i:3"><span class="tag lime">Painel de exemplo · dados fictícios</span>
+  <li>Lojas positivadas e ritmo do campo, dia a dia</li><li>Positivação por rede, cidade, estado e promotor</li><li>Link só da Pokémon: sem login, com validade, e o telefone nunca aparece</li></ul>
+ <div class="fonte">Fonte: Painel de instalações da 75 LAB, tela real com dados de exemplo (redes e equipes fictícias).</div>
+ <aside class="roteiro" hidden>Este é o Painel de instalações da 75 LAB, com dados de exemplo. Cada registro que o instalador faz aparece aqui: lojas positivadas, ritmo da execução, positivação por rede, cidade e estado, e o mapa. Para a Pokémon, criamos um link de acompanhamento ao vivo, sem login: ela escolhe a campanha, a validade e se quer ver as fotos das fachadas. O telefone do instalador nunca aparece nesse link. Dá para bloquear e apagar a qualquer momento. Troquem as abas para ver cada parte. Agora, o que isso mede da COPAG?</aside>
+</section>
+
+<!-- 8 PESADO -->
+<section class="slide" id="s8">
+ <div class="hdr" style="left:auto;right:64px"><img src="assets/02-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/03-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div>
+ <div class="ph"><img class="z" src="assets/15-oficina-1792160293790-espaco-treinador-loja.jpg" alt="Display grande da Pokémon em corredor de loja" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+ <div class="tx">
+  <span class="k st" style="--i:0">Display pesado</span>
+  <h2 class="t-m st" style="--i:1;margin:12px 0 0">No display pesado, o QR registra a montagem e a <em>etiqueta mostra onde ele está</em>.</h2>
+  <div class="duo">
+   <div class="st" style="--i:2"><svg class="ic" viewBox="0 0 56 56"><rect x="8" y="8" width="16" height="16"/><rect x="32" y="8" width="16" height="16"/><rect x="8" y="32" width="16" height="16"/><path d="M32 32h6v6h-6zM42 42h6v6h-6z"/></svg><h3>QR na base</h3><p>O instalador registra a montagem com foto, no mesmo fluxo das peças leves.</p></div>
+   <div class="st" style="--i:3"><svg class="ic" viewBox="0 0 56 56"><circle class="pul" cx="28" cy="24" r="8"/><path d="M28 50C16 36 12 30 12 24a16 16 0 0 1 32 0c0 6-4 12-16 26z"/></svg><h3>Etiqueta de localização</h3><p>Escondida na estrutura. A posição é conferida em revisita, sem alerta em tempo real.</p></div>
+  </div>
+  <p class="lede st" style="--i:4;margin-top:26px;font-size:22px">Conferência sem depender da memória de ninguém.</p>
+ </div>
+ <div class="pg" style="display:none">08 / 12</div>
+ <div class="fonte" style="left:770px">Fonte: proposta 75 LAB para a Pokémon.</div>
+ <aside class="roteiro" hidden>Nos displays pesados, como o Espaço Treinador, a conta é diferente: são poucas peças, grandes e de maior investimento. Elas levam o mesmo QR na base, para registrar a montagem com foto. E levam também uma etiqueta de localização, escondida na estrutura. Vamos ser claros: ela não promete alerta em tempo real. A posição é conferida em revisita e aparece no painel. Isso já responde se o display continua onde deveria estar, sem depender da memória de ninguém. Com isso, a régua da COPAG passa a ser medida.</aside>
+</section>
+
+<!-- 9 RÉGUA -->
+<section class="slide" id="s9">
+ <div class="hdr"><img src="assets/02-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/03-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">09 / 12</div>
+ <div class="big5 num st" style="--i:0"><span data-conta="5">5</span></div>
+ <h2 class="t-m" style="position:absolute;left:64px;top:560px;width:540px;font-size:62px"><span class="st" style="--i:1;display:block">A régua da COPAG passa a ser <em style="color:#fff">medida</em>, loja a loja.</span></h2>
+ <div class="five">
+  <div class="st" style="--i:1"><span class="n">01</span><b>Tempo de implantação</b><span>Dias entre a saída da onda e o registro em cada loja</span></div>
+  <div class="st" style="--i:2"><span class="n">02</span><b>Lojas instaladas</b><span>Lojas com registro contra as planejadas</span></div>
+  <div class="st" style="--i:3"><span class="n">03</span><b>Lojas positivadas</b><span>Quais lojas têm material e quais não têm</span></div>
+  <div class="st" style="--i:4"><span class="n">04</span><b>Base de lojas</b><span>Rede, cidade e estado de cada loja que vende</span></div>
+  <div class="st" style="--i:5"><span class="n">05</span><b>Book de fotos</b><span>Fachada e peça, loja a loja, da execução</span></div>
+ </div>
+ <div class="fonte">Fonte: briefing da Pokémon à 75 LAB, 16/10/2026; indicadores do Painel de instalações.</div>
+ <aside class="roteiro" hidden>Cinco medidas, as mesmas que a Gabriela pediu no briefing. Tempo de implantação: quantos dias entre a saída da onda e o registro em cada loja. Lojas instaladas, contra as planejadas. Lojas positivadas: quais têm material e quais não têm. Base de lojas: rede, cidade e estado de cada loja que vende Pokémon. E o book de fotos da execução. Tudo isso já existe como campo ou indicador no painel que acabamos de ver. Não é opinião sobre a COPAG: é prova compartilhada. E o melhor vem na sequência: o mapa de lojas.</aside>
+</section>
+
+<!-- 10 MAPA -->
+<section class="slide" id="s10">
+ <div class="hdr"><img src="assets/02-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/03-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">10 / 12</div>
+ <h2 class="t-m" style="position:absolute;left:64px;top:96px;width:1400px"><span class="st" style="--i:0;display:block">Os registros viram o <em>mapa de lojas</em> que a Pokémon não tinha.</span></h2>
+ <div class="map st" style="--i:1;top:240px;height:510px"><img class="z" src="assets/14-oficina-1792170975495-sys-d3.jpg" alt="Mapa de lojas positivadas no painel, com dados de exemplo"></div>
+ <div class="qs" style="top:240px">
+  <div class="q st" style="--i:2"><h3>Loja com material vende mais?</h3><p>Cruza a positivação com a venda que a Pokémon tiver por loja ou região.</p></div>
+  <div class="q st" style="--i:3"><h3>Quem mais vende tem mais material?</h3><p>Compara a presença de material com a venda de cada região.</p></div>
+  <div class="q st" style="--i:4"><h3>Que loja importante ficou sem?</h3><p>Lojas-chave da lista da Pokémon que não aparecem com registro.</p></div>
+ </div>
+ <div class="fonte">Fonte: Painel de instalações da 75 LAB, tela real com dados de exemplo. O cruzamento com venda depende do dado de venda da Pokémon.</div>
+ <aside class="roteiro" hidden>Aqui está o ganho paralelo. A COPAG não tem a obrigação de compartilhar os dados das lojas, e a Pokémon começa a construir o próprio mapa a cada instalação. Com o mapa, três perguntas passam a ter resposta. A loja com material vende mais ou menos? As regiões que mais vendem têm mais material? E existem lojas importantes que ainda não receberam material e deveriam? O cruzamento com venda depende do dado de venda que a Pokémon tiver por loja ou região. A tela é um exemplo, com dados fictícios. Como isso entra na onda sem atrasar ninguém?</aside>
+</section>
+
+<!-- 11 CRONOGRAMA -->
+<section class="slide" id="s11">
+ <div class="hdr"><img src="assets/02-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/03-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">11 / 12</div>
+ <h2 class="t-l" style="position:absolute;left:64px;top:120px;width:1400px"><span class="st" style="--i:0;display:block">A auditoria entra na onda <em>sem atrasar</em> a COPAG.</span></h2>
+ <div class="cr st" style="--i:1;top:340px">
+  <div class="line"><i></i></div>
+  <div class="ond">
+   <div><span class="w">Antes da saída</span><h3>Preparar</h3><ul><li>Projeto da Pokémon criado no sistema</li><li>Etiqueta gerada e enviada a quem produz as peças</li><li>Colada na expedição</li></ul><span class="par">em sequência</span></div>
+   <div><span class="w">Semanas 0 a 2 da onda</span><h3>Instalar e registrar</h3><ul><li>COPAG instala e o QR registra</li><li>Link ao vivo aberto no primeiro registro</li></ul><span class="par">em paralelo</span></div>
+   <div><span class="w">Fechamento</span><h3>Entregar</h3><ul><li>Relatório da execução</li><li>Mapa de lojas e book de fotos</li></ul></div>
+   <div><span class="w">Depois</span><h3>Revisitar</h3><ul><li>Leitura periódica dos displays pesados</li></ul></div>
+  </div>
+ </div>
+ <div class="fonte">Fonte: proposta 75 LAB para a Pokémon. As semanas se contam a partir da saída da onda, conforme a data de saída que a COPAG confirmar.</div>
+ <aside class="roteiro" hidden>O relógio é o da onda. Antes da saída da COPAG, criamos o projeto da Pokémon no sistema, geramos a etiqueta, enviamos a quem produz as peças e ela é colada na expedição. Isso é em sequência, e é pouca coisa. Nas semanas zero a dois, a COPAG instala e cada QR lido vira um registro. O link ao vivo abre no primeiro registro, em paralelo. No fechamento, entregamos o relatório, o mapa de lojas e o book de fotos. Depois, os displays pesados são conferidos em revisita. As datas fecham quando a COPAG confirmar a saída da onda.</aside>
+</section>
+
+<!-- 12 FECHAMENTO -->
+<section class="slide" id="s12">
+ <div class="hdr"><img src="assets/02-oficina-1792159617893-logo.png" alt="Logo Pokémon" style="background:#fff;border-radius:8px;padding:4px 8px"><i style="background:rgba(255,255,255,.3)"></i><img class="l75" src="assets/03-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB" style="filter:invert(1)"></div><div class="pg">12 / 12</div>
+ <h1 class="st" style="--i:0">Ideia boa é a que acontece. <em>E a que se prova.</em></h1>
+ <div class="logo-card st" style="--i:2"><img src="assets/03-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB" style="max-width:200px"><p>Próximo passo: 30 minutos para alinhar a lista de lojas e as peças da onda, com quem vai produzi-las.</p></div>
+ <div class="inst st" style="--i:3">
+  <div><b>Razão social</b>75 LAB Estratégia, Design e Produção Ltda<br>CNPJ 55.470.982/0001-77</div>
+  <div><b>Endereço</b>CENU · Torre Norte<br>Av. das Nações Unidas, 12.901, Brooklin<br>São Paulo, SP · 04578-910</div>
+  <div><b>Contato</b>Daniel Coimbra · CEO<br>daniel.coimbra@75lab.com.br<br>75lab.com.br · @setecincolab</div>
+ </div>
+ <a class="wa st" style="--i:4" href="https://wa.me/5511986765634?text=Ol%C3%A1!%20Vi%20a%20proposta%20da%2075%20LAB%20para%20a%20Pok%C3%A9mon%20e%20quero%20conversar." target="_blank" rel="noopener">Fale conosco no WhatsApp</a>
+ <aside class="roteiro" hidden>Voltando ao começo: a Pokémon investe no material, e agora cada peça da onda vira prova. Um QR discreto na base, o sistema que já operamos, o painel ao vivo e, no fim, o mapa de lojas que a Pokémon não tinha. O próximo passo é uma conversa de trinta minutos para alinhar a lista de lojas e as peças da onda, junto com quem vai produzi-las. Aqui estão os nossos dados e o botão do WhatsApp. Obrigado, Gabriela.</aside>
+</section>
+
+</div>
+<button class="btn" id="prev" aria-label="Tela anterior">‹</button><button class="btn" id="next" aria-label="Próxima tela">›</button>
+<div id="nav"><i></i></div><div id="rot" role="region" aria-label="Roteiro de fala"></div><div id="lb"><img alt=""></div><div id="cur"></div>
+<script>
+(function(){
+var S=[].slice.call(document.querySelectorAll('.slide')),n=S.length,cur=0,st=document.getElementById('stage');
+function mob(){return Math.min(window.innerWidth,screen.width)<900}
+function fit(){if(mob()){st.style.transform='';return}var k=Math.min(innerWidth/1600,innerHeight/900);st.style.transform='translate(-50%,-50%) scale('+k+')'}
+addEventListener('resize',fit);addEventListener('orientationchange',fit);fit();
+function conta(el){var s=el.querySelectorAll('[data-conta]');s.forEach(function(e){var t=+e.dataset.conta,t0=performance.now();if(matchMedia('(prefers-reduced-motion:reduce)').matches){e.textContent=t;return}(function f(now){var p=Math.min(1,(now-t0)/1400);e.textContent=Math.round(t*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(t0)})}
+function show(i){if(i<0||i>=n)return;cur=i;S.forEach(function(s,k){s.classList.toggle('on',k===i);s.classList.toggle('past',k<i)});document.querySelector('#nav i').style.width=((i+1)/n*100)+'%';conta(S[i]);rot();history.replaceState(null,'','#'+(i+1))}
+function rot(){var a=S[cur].querySelector('.roteiro');document.getElementById('rot').innerHTML=a?a.innerHTML:''}
+if(!mob()){var h=parseInt(location.hash.slice(1));if(h>0&&h<=n)show(h-1);else show(0)}else{S.forEach(function(s){s.classList.add('on')});document.querySelectorAll('[data-conta]').forEach(function(e){e.textContent=e.dataset.conta})}
+document.getElementById('next').onclick=function(){show(cur+1)};document.getElementById('prev').onclick=function(){show(cur-1)};
+addEventListener('keydown',function(e){if(mob())return;if(['ArrowRight','PageDown',' '].indexOf(e.key)>-1){e.preventDefault();show(cur+1)}else if(['ArrowLeft','PageUp'].indexOf(e.key)>-1){show(cur-1)}else if(e.key==='r'||e.key==='R'){document.getElementById('rot').classList.toggle('show')}else if(e.key==='Escape'){document.getElementById('lb').classList.remove('show')}});
+var x0=null;addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});addEventListener('touchend',function(e){if(mob()||x0===null)return;var d=e.changedTouches[0].clientX-x0;if(Math.abs(d)>60)show(cur+(d<0?1:-1));x0=null});
+var wl=0;addEventListener('wheel',function(e){if(mob())return;var t=Date.now();if(t-wl<900)return;if(Math.abs(e.deltaY)>40){wl=t;show(cur+(e.deltaY>0?1:-1))}},{passive:true});
+document.querySelectorAll('img.z').forEach(function(im){im.addEventListener('click',function(){var lb=document.getElementById('lb');lb.querySelector('img').src=im.src;lb.querySelector('img').alt=im.alt;lb.classList.add('show')})});
+document.getElementById('lb').onclick=function(){this.classList.remove('show')};
+document.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){var p=b.closest('.slide');p.querySelectorAll('.tabs button').forEach(function(x){x.classList.toggle('on',x===b)});p.querySelectorAll('.scr img').forEach(function(im,k){im.classList.toggle('on',k===+b.dataset.t)})}});
+document.querySelectorAll('.hot').forEach(function(h){h.onclick=function(){h.classList.toggle('open')}});
+var c=document.getElementById('cur');addEventListener('mousemove',function(e){c.style.left=e.clientX+'px';c.style.top=e.clientY+'px';c.classList.toggle('big',!!e.target.closest('a,button,img.z,.hot'))});
+})();
+</script>
+<div id="painel-roteiro" data-modo-apresentador hidden style="position:fixed;left:16px;right:16px;bottom:16px;max-height:38vh;overflow:auto;z-index:99999;background:rgba(17,17,17,.94);color:#f4f4f0;font:16px/1.5 'Space Grotesk',Arial,sans-serif;padding:16px 20px;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.35)"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:6px"><b id="painel-roteiro-t" style="font:700 13px 'Space Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:#C0EE4E">Roteiro</b><button type="button" onclick="document.getElementById('painel-roteiro').hidden=true" aria-label="Fechar roteiro" style="min-width:44px;min-height:44px;background:none;border:1px solid #555;color:#fff;border-radius:8px;cursor:pointer">×</button></div><div id="painel-roteiro-x"></div></div>
+<button type="button" id="botao-roteiro" aria-label="Abrir o roteiro de fala" style="position:fixed;right:16px;top:16px;z-index:99998;min-width:44px;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid rgba(0,0,0,.15);background:rgba(255,255,255,.85);font:600 13px 'Space Grotesk',Arial,sans-serif;cursor:pointer;opacity:.55">Roteiro</button>
+<script>(function(){var P=document.getElementById('painel-roteiro'),X=document.getElementById('painel-roteiro-x'),T=document.getElementById('painel-roteiro-t');function atual(){var s=[].slice.call(document.querySelectorAll('.slide, section.tela, [data-slide]'));var v=s.filter(function(e){var c=getComputedStyle(e),r=e.getBoundingClientRect();return c.display!=='none'&&c.visibility!=='hidden'&&parseFloat(c.opacity||'1')>.3&&r.bottom>0&&r.top<innerHeight})[0];return {s:v,i:s.indexOf(v)}}function abrir(){var a=atual();if(!a.s)return;var r=a.s.querySelector('.roteiro');X.textContent=r?r.textContent.replace(/\s+/g,' ').trim():'Sem roteiro nesta tela.';T.textContent='Roteiro · tela '+(a.i+1);P.hidden=false}document.getElementById('botao-roteiro').onclick=function(){P.hidden?abrir():P.hidden=true};addEventListener('keydown',function(e){if((e.key==='r'||e.key==='R')&&!e.metaKey&&!e.ctrlKey){P.hidden?abrir():P.hidden=true}else if(!P.hidden&&/Arrow|Page| /.test(e.key)){setTimeout(abrir,60)}});})();</script>
+<style data-base-deck="1.0.0">
+/* Base de deck da agência 75 LAB: modo celular (html.bc-cel). No computador nada muda: todas as regras ficam presas a
+   html.bc-cel, ligado pelo deck-base.cliente.js só abaixo de 900 px de largura (ou quando o próprio deck entrou no modo
+   celular dele). No celular cada tela vira uma seção empilhada, fundo claro, tipografia por papel e navegação na margem. */
+html.bc-cel{--bc-papel:#F2F1E9;--bc-papel2:#FAF9F4;--bc-tinta:#111110;--bc-tinta2:#3a3a36;--bc-suave:#66665f;--bc-linha:rgba(17,17,16,.12);--bc-cartao:#FFFFFF;--bc-acento:#01A290;--bc-mx:22px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html.bc-cel,html.bc-cel body{width:auto!important;height:auto!important;min-height:0!important;max-width:none!important;max-height:none!important;overflow-x:hidden!important;overflow-y:auto!important;position:static!important;background:var(--bc-papel)!important;cursor:auto!important;touch-action:pan-y pinch-zoom!important;overscroll-behavior:auto!important;zoom:1!important}
+@supports (overflow:clip){html.bc-cel,html.bc-cel body{overflow-x:clip!important}}
+html.bc-cel body{margin:0!important;padding:0!important;user-select:auto!important;-webkit-user-select:auto!important}
+html.bc-cel *{cursor:auto!important}
+html.bc-cel *,html.bc-cel *::before,html.bc-cel *::after{touch-action:auto!important}
+/* palco do deck (stage e quem estiver entre o body e as telas) */
+html.bc-cel [data-bc-palco]{position:static!important;transform:none!important;scale:none!important;translate:none!important;width:auto!important;height:auto!important;min-height:0!important;max-width:none!important;max-height:none!important;margin:0!important;padding:0!important;inset:auto!important;overflow:visible!important;display:block!important;background:transparent!important;zoom:1!important;opacity:1!important;visibility:visible!important;filter:none!important;clip-path:none!important}
+/* cromo do deck (setas, pontos, contador, cursor, cabeçalho fixo, botão de roteiro): some no celular */
+html.bc-cel [data-bc-cromo],html.bc-cel [data-bc-deco],html.bc-cel [data-bc-oculto]{display:none!important}
+html.bc-cel [data-bc-tela] [data-bc-oculto][data-bc-oculto][data-bc-oculto],html.bc-cel [data-bc-tela] [data-bc-deco][data-bc-deco][data-bc-deco]{display:none!important}
+html.bc-cel .bc-rodape{display:flex!important;justify-content:center;padding:28px 22px 44px;background:var(--bc-papel)}
+html.bc-cel .bc-rodape #botao-roteiro{position:static!important;opacity:.8!important;min-height:44px}
+html.bc-cel #painel-roteiro{left:12px!important;right:12px!important;bottom:12px!important;max-height:50svh!important}
+/* cada tela vira uma seção */
+html.bc-cel [data-bc-tela]{position:relative!important;inset:auto!important;display:block!important;float:none!important;width:auto!important;max-width:none!important;height:auto!important;min-height:0!important;max-height:none!important;margin:0!important;padding:60px max(var(--bc-mx),calc((100vw - 660px)/2)) 52px!important;opacity:1!important;visibility:visible!important;transform:none!important;scale:none!important;translate:none!important;filter:none!important;clip-path:none!important;overflow:hidden!important;background:var(--bc-papel)!important;background-image:none!important;color:var(--bc-tinta)!important;pointer-events:auto!important;transition:none!important;animation:none!important;content-visibility:visible!important;scroll-snap-align:start;scroll-margin-top:0;border-top:1px solid var(--bc-linha)!important;box-shadow:none!important;z-index:auto!important;text-align:left!important}
+html.bc-cel [data-bc-tela][data-bc-par]{background:var(--bc-papel2)!important}
+html.bc-cel [data-bc-tela]:first-of-type,html.bc-cel [data-bc-tela="1"]{border-top:0!important}
+html.bc-cel [data-bc-tela]::before,html.bc-cel [data-bc-tela]::after{display:none!important}
+/* tudo dentro da tela entra no fluxo: sem posição absoluta, sem transformação, nada mais largo que a tela */
+html.bc-cel [data-bc-tela] *:not(svg):not(svg *):not([data-bc-manter]):not([data-bc-manter] *){position:static!important;inset:auto!important;float:none!important;transform:none!important;scale:none!important;translate:none!important;rotate:none!important;min-width:0!important;max-width:100%!important;transition:none!important;clip-path:none!important;writing-mode:horizontal-tb!important;column-count:auto!important;columns:auto!important;z-index:auto!important;mix-blend-mode:normal!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+html.bc-cel [data-bc-tela] *::before,html.bc-cel [data-bc-tela] *::after{max-width:100%!important}
+html.bc-cel [data-bc-tela] [data-bc-c]{width:auto!important;height:auto!important;min-height:0!important;max-height:none!important;flex:0 1 auto!important;align-self:stretch!important;justify-self:stretch!important;margin-left:0!important;margin-right:0!important;text-overflow:clip!important}
+html.bc-cel [data-bc-tela] [data-bc-c][data-bc-c="inline"]{width:fit-content!important;max-width:100%!important;align-self:flex-start!important;justify-self:start!important}
+html.bc-cel [data-bc-tela] svg{max-width:100%!important;transform:none!important;rotate:none!important;position:static!important;inset:auto!important}
+html.bc-cel [data-bc-tela] svg *{stroke-dashoffset:0!important;animation:none!important;transition:none!important}
+html.bc-cel [data-bc-tela] svg[data-bc-svg="grafico"]{width:100%!important;height:auto!important;display:block!important}
+html.bc-cel [data-bc-tela] svg[data-bc-svg="icone"]{max-width:44px!important;max-height:44px!important}
+html.bc-cel [data-bc-tela] [data-bc-ancora]{position:relative!important}
+html.bc-cel [data-bc-tela] [data-bc-ancora]::before,html.bc-cel [data-bc-tela] [data-bc-ancora]::after{max-height:100%!important;max-width:100%!important}
+/* grades e linhas */
+html.bc-cel [data-bc-tela] [data-bc-grade]{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:none!important;grid-template-areas:none!important;grid-auto-flow:row!important;grid-auto-rows:auto!important;gap:14px!important;align-items:stretch!important;justify-items:stretch!important;align-content:start!important}
+html.bc-cel [data-bc-tela] [data-bc-grade="2"]{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+html.bc-cel [data-bc-tela] [data-bc-grade="logos"]{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important;align-items:center!important}
+html.bc-cel [data-bc-tela] [data-bc-grade="galeria"]{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+html.bc-cel [data-bc-tela] [data-bc-grade="galeria"] img{width:100%!important;height:auto!important;aspect-ratio:4/3!important;object-fit:cover!important;margin:0!important;max-height:none!important}
+html.bc-cel [data-bc-tela] [data-bc-grade]>*{grid-column:auto!important;grid-row:auto!important;grid-area:auto!important}
+html.bc-cel [data-bc-tela] [data-bc-linha="coluna"]{display:flex!important;flex-direction:column!important;flex-wrap:nowrap!important;align-items:stretch!important;justify-content:flex-start!important;gap:14px!important}
+html.bc-cel [data-bc-tela] [data-bc-linha="fica"]{display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;align-items:center!important;justify-content:flex-start!important;gap:10px 14px!important}
+html.bc-cel [data-bc-tela] [data-bc-linha="fica"]>*{flex:0 1 auto!important;width:auto!important}
+html.bc-cel [data-bc-tela] [data-bc-tabela]{display:block!important}
+/* cartões */
+html.bc-cel [data-bc-tela] [data-bc-cartao]{border-radius:inherit;padding:18px 18px!important;box-shadow:none!important}
+html.bc-cel [data-bc-tela] [data-bc-cartao="claro"]{background:var(--bc-cartao)!important;border:1px solid var(--bc-linha)!important;color:var(--bc-tinta)!important}
+html.bc-cel [data-bc-tela] [data-bc-camada]{background:transparent!important;background-image:none!important;border-color:transparent!important;box-shadow:none!important;padding:0!important}
+/* imagens */
+html.bc-cel [data-bc-tela] img,html.bc-cel [data-bc-tela] video,html.bc-cel [data-bc-tela] picture,html.bc-cel [data-bc-tela] canvas{max-width:100%!important;height:auto!important;opacity:1!important;filter:none!important}
+html.bc-cel [data-bc-tela] [data-bc-img="foto"]{display:block!important;width:100%!important;height:auto!important;max-height:72svh!important;object-fit:cover!important;object-position:center!important;margin:6px 0 18px!important;border-radius:0!important;aspect-ratio:auto!important}
+html.bc-cel [data-bc-tela] [data-bc-img="foto"][data-bc-alta]{width:auto!important;max-width:100%!important;max-height:60svh!important;margin-left:auto!important;margin-right:auto!important;object-fit:contain!important}
+html.bc-cel [data-bc-tela] [data-bc-img="capa"]{display:block!important;width:calc(100% + 2 * max(var(--bc-mx),calc((100vw - 660px)/2)))!important;max-width:none!important;margin:-60px calc(-1 * max(var(--bc-mx),calc((100vw - 660px)/2))) 26px!important;height:auto!important;aspect-ratio:4/3!important;object-fit:cover!important;object-position:center!important;border-radius:0!important}
+html.bc-cel [data-bc-tela] [data-bc-img="logo"]{display:inline-block!important;width:auto!important;height:auto!important;max-width:150px!important;max-height:42px!important;object-fit:contain!important;margin:0!important;vertical-align:middle}
+html.bc-cel [data-bc-tela] [data-bc-grade="logos"] [data-bc-img="logo"]{max-width:100%!important;max-height:40px!important;margin:0 auto!important;display:block!important}
+html.bc-cel [data-bc-tela] [data-bc-img="icone"]{display:inline-block!important;width:auto!important;height:auto!important;max-width:44px!important;max-height:44px!important;object-fit:contain!important;margin:0 0 8px!important}
+html.bc-cel [data-bc-tela] [data-bc-fundo]{display:block!important;width:calc(100% + 2 * max(var(--bc-mx),calc((100vw - 660px)/2)))!important;max-width:none!important;height:auto!important;aspect-ratio:4/3;margin:-60px calc(-1 * max(var(--bc-mx),calc((100vw - 660px)/2))) 26px!important;background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;opacity:1!important;filter:none!important;border-radius:0!important}
+html.bc-cel [data-bc-tela] [data-bc-fundo="meio"]{width:100%!important;margin:6px 0 18px!important;aspect-ratio:16/10}
+html.bc-cel [data-bc-tela] iframe{width:100%!important;height:70svh!important;border:0}
+html.bc-cel [data-bc-tela] [data-bc-mapa]>img{width:100%!important;height:auto!important;max-height:none!important;margin:0!important}
+html.bc-cel [data-bc-tela] model-viewer{width:100%!important;height:56svh!important}
+/* texto por papel */
+html.bc-cel [data-bc-tela] [data-bc-papel]{white-space:normal!important;overflow-wrap:break-word!important;word-break:normal!important;hyphens:manual;text-overflow:clip!important;max-width:100%!important;-webkit-line-clamp:unset!important;line-clamp:none!important;text-indent:0!important}
+html.bc-cel [data-bc-tela] [data-bc-papel="capa"]{font-size:clamp(38px,11.2vw,54px)!important;line-height:1.04!important;letter-spacing:-.01em!important;margin:0 0 16px!important;text-wrap:balance}
+html.bc-cel [data-bc-tela] [data-bc-papel="titulo"]{font-size:clamp(29px,8.4vw,40px)!important;line-height:1.06!important;letter-spacing:-.005em!important;margin:0 0 16px!important;text-wrap:balance}
+html.bc-cel [data-bc-tela] [data-bc-papel="titulo3"]{font-size:28px!important;line-height:1.1!important;letter-spacing:0!important;margin:0 0 8px!important;text-wrap:balance}
+html.bc-cel [data-bc-tela] [data-bc-papel="subtitulo"]{font-size:clamp(19px,5.4vw,23px)!important;line-height:1.28!important;letter-spacing:0!important;margin:0 0 8px!important}
+html.bc-cel [data-bc-tela] [data-bc-papel="corpo"]{font-size:clamp(16px,4.4vw,18px)!important;line-height:1.5!important;letter-spacing:0!important;margin:0 0 12px!important}
+html.bc-cel [data-bc-tela] [data-bc-papel="apoio"]{font-size:16px!important;line-height:1.45!important;letter-spacing:0!important;margin:0 0 8px!important}
+html.bc-cel [data-bc-tela] [data-bc-papel="rotulo"]{font-size:13px!important;line-height:1.4!important;letter-spacing:.1em!important;margin:0 0 10px!important}
+html.bc-cel [data-bc-tela] [data-bc-papel="numero"]{white-space:nowrap!important;line-height:1!important;letter-spacing:-.01em!important;margin:4px 0 6px!important;overflow:visible!important}
+html.bc-cel [data-bc-tela] [data-bc-papel="numero"][data-bc-quebra]{white-space:normal!important;text-wrap:balance}
+html.bc-cel [data-bc-tela] [data-bc-papel="fonte"]{font-size:12px!important;line-height:1.4!important;letter-spacing:0!important;margin:18px 0 0!important;color:var(--bc-suave)!important;opacity:1!important;text-transform:none!important;font-weight:400!important}
+html.bc-cel [data-bc-tela] [data-bc-papel] *{font-size:inherit;line-height:inherit!important;margin-top:0!important;margin-bottom:0!important;padding-top:0!important;padding-bottom:0!important}
+html.bc-cel [data-bc-tela] [data-bc-papel] [data-bc-papel]{font-size:inherit!important}
+html.bc-cel [data-bc-tela] [data-bc-acao]{min-height:44px!important;display:inline-flex!important;align-items:center!important;justify-content:center;padding:10px 16px!important;margin:6px 0!important;width:auto!important}
+html.bc-cel [data-bc-tela] li[data-bc-papel]{margin-bottom:8px!important}
+html.bc-cel [data-bc-tela] ul,html.bc-cel [data-bc-tela] ol{padding-left:20px!important;margin:0 0 12px!important}
+html.bc-cel [data-bc-tela] [data-bc-c="lista-limpa"]{padding-left:0!important}
+/* créditos de foto que eram legenda: vão para o pé da tela, pequenos */
+html.bc-cel [data-bc-tela] .bc-fonte{display:block!important;font:400 12px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif!important;color:var(--bc-suave)!important;margin:20px 0 0!important;letter-spacing:0!important;text-transform:none!important}
+/* capa */
+html.bc-cel [data-bc-tela="1"]{display:flex!important;flex-direction:column!important;justify-content:flex-start!important;padding-bottom:56px!important}
+html.bc-cel [data-bc-tela="1"][data-bc-temcapa]{min-height:100svh!important}
+html.bc-cel [data-bc-tela="1"][data-bc-temcapa]{justify-content:flex-start!important}
+html.bc-cel [data-bc-tela="1"]>*{flex:0 0 auto!important}
+html.bc-cel [data-bc-tela="1"] .bc-marcas{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:18px!important;margin:-60px calc(-1 * max(var(--bc-mx),calc((100vw - 660px)/2))) 22px!important;padding:16px max(var(--bc-mx),calc((100vw - 660px)/2))!important;width:auto!important;max-width:none!important}
+html.bc-cel [data-bc-tela="1"] .bc-marcas img,html.bc-cel [data-bc-tela="1"] .bc-marcas svg{height:28px!important;width:auto!important;max-width:44%!important;object-fit:contain!important;display:block!important}
+html.bc-cel [data-bc-tela="1"][data-bc-temcapa] .bc-marcas{margin-bottom:0!important}
+html.bc-cel [data-bc-tela="1"]:not([data-bc-temcapa]) .bc-marcas+*{margin-top:28px!important}
+/* navegação na margem direita: nunca encosta no texto */
+#bc-nav{display:none}
+html.bc-cel #bc-nav{display:flex;position:fixed;right:7px;top:50%;transform:translateY(-50%);flex-direction:column;align-items:center;gap:6px;z-index:2147483000;pointer-events:none;opacity:0;transition:opacity .35s ease}
+html.bc-cel #bc-nav.bc-rolando{opacity:1}
+html.bc-cel #bc-nav i{display:block;width:5px;height:5px;border-radius:3px;background:rgba(17,17,16,.22);transition:height .25s ease,background .25s ease}
+html.bc-cel #bc-nav i.bc-agora{height:16px;background:var(--bc-acento)}
+html.bc-cel #bc-nav.bc-trilho{width:3px;height:34vh;border-radius:2px;background:rgba(17,17,16,.14);gap:0;justify-content:flex-start}
+html.bc-cel #bc-nav.bc-trilho b{display:block;width:3px;border-radius:2px;background:var(--bc-acento);height:0}
+@media (prefers-reduced-motion:reduce){html.bc-cel #bc-nav i{transition:none}}
+/* componente que o deck pede para manter como está no celular (data-bc-manter): só não pode passar da largura */
+html.bc-cel [data-bc-tela] [data-bc-manter]{max-width:100%!important;overflow-x:auto}
+</style>
+<script data-base-deck="1.0.0">
+/* Base de deck da agência 75 LAB (lado do navegador). Injetada pelo motor em todo deck e one-pager (deck-base.ts).
+   No computador não faz nada. No celular (largura abaixo de 900 px, ou quando o próprio deck entrou no modo celular dele)
+   transforma cada tela numa seção empilhada e desenhada para o telefone: fundo claro, tipografia por papel, números que
+   cabem, imagens na largura certa, legenda vira crédito no pé, navegação discreta na margem direita. ?bc=0 desliga. */
+(function () {
+  'use strict';
+  var D = document, H = D.documentElement, W = window;
+  if (W.__bcBase) return; W.__bcBase = 1;
+  var q = {}; try { q = Object.fromEntries(new URLSearchParams(location.search)); } catch (e) {}
+  if (q.bc === '0') return;
+  if (D.querySelector('meta[name="perfil-conferencia"][content="loja-simulada"]')) return;
+  var FORCAR = q.bc === '1';
+  var ATIVAS = ['on', 'active', 'ativa', 'ativo', 'act', 'atual', 'current', 'is-active', 'show', 'visivel', 'in', 'cur', 'atv'];
+  var CREDITO = /^(foto|fotos|imagem|imagens|ilustra[cç][aã]o|ilustrativ|cr[eé]dito|reprodu[cç][aã]o|divulga[cç][aã]o|simula[cç][aã]o|render|mockup|montagem|composi[cç][aã]o|©|\(c\))|foto real|imagem ilustrativa|ilustra[cç][aã]o institucional|meramente ilustrativ|composi[cç][aã]o ilustrativa|\bilustrativ[ao]s?\b|\(simula[cç][aã]o\)/i;
+  var LOGO = /logo|wordmark|brandmark/i;
+  var FONTE = /^\s*(fonte|fontes|source|sources|dados|refer[eê]ncias?)\s*[:·.]/i;
+  function arr(x) { return Array.prototype.slice.call(x || []); }
+  function cs(el, ps) { return W.getComputedStyle(el, ps || null); }
+  function direto(el) { var t = ''; for (var i = 0; i < el.childNodes.length; i++) { var c = el.childNodes[i]; if (c.nodeType === 3) t += c.textContent; } return t.replace(/\s+/g, ' ').trim(); }
+  function texto(el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); }
+  function rgb(c) { var m = String(c || '').match(/rgba?\(([^)]+)\)/); if (!m) return null; var v = m[1].split(/[ ,/]+/).filter(Boolean).map(parseFloat); return { r: v[0], g: v[1], b: v[2], a: v.length > 3 ? v[3] : 1 }; }
+  function lum(c) { function f(x) { x /= 255; return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4); } return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b); }
+  function razao(a, b) { var l1 = lum(a), l2 = lum(b); return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05); }
+  function imp(el, p, v) { el.style.setProperty(p, v, 'important'); }
+  var PAPEL = { r: 242, g: 241, b: 233, a: 1 }, PAPEL2 = { r: 250, g: 249, b: 244, a: 1 }, BRANCO = { r: 255, g: 255, b: 255, a: 1 };
+
+  function deckEmModoCelular() { return /(^|\s)(mob|mobile|celular|is-mobile)(\s|$)/.test(H.className + ' ' + (D.body ? D.body.className : '')); }
+  // largura do aparelho: conteúdo largo demais aumenta o innerWidth no celular, então vale o menor entre janela e tela
+  function largura() { return Math.min(W.innerWidth, (W.screen && W.screen.width) || W.innerWidth); }
+  function querCelular() { if (FORCAR) return true; if (q.bc === 'desk') return false; return largura() < 900 || deckEmModoCelular(); }
+
+  // ---------- telas ----------
+  function acharTelas() {
+    var c = arr(D.querySelectorAll('.slide, section.tela, [data-slide], section.s, .s[data-ch], .s[data-t]'));
+    c = c.filter(function (el) { return !c.some(function (o) { return o !== el && o.contains(el); }); });
+    if (c.length >= 2) return c;
+    // palco de uma tela só (one-pager 1600x900)
+    var st = D.querySelector('#stage, .stage, #palco, .palco, [data-palco], #deck, .deck');
+    if (st) {
+      var filhos = arr(st.children).filter(function (x) { return !/^(script|style|template)$/i.test(x.tagName); });
+      if (filhos.length === 1 && filhos[0].querySelector('h1,h2,h3,p')) return [filhos[0]];
+      return [st];
+    }
+    // página com largura fixa de palco no body (1600, 1440, 1280...)
+    var b = D.body; if (!b) return [];
+    var fixo = arr(b.children).filter(function (x) { if (/^(script|style|template|noscript)$/i.test(x.tagName)) return false; var w = parseFloat(cs(x).width); return w >= 1100 && x.querySelector('h1,h2,h3,p'); });
+    if (fixo.length) return fixo;
+    return [];
+  }
+
+  function classeAtiva(telas) {
+    var vis = telas.filter(function (t) { var s = cs(t); return s.visibility !== 'hidden' && s.display !== 'none' && parseFloat(s.opacity) > 0.5; });
+    for (var i = 0; i < vis.length; i++) {
+      var cand = arr(vis[i].classList).filter(function (k) { return telas.filter(function (o) { return o.classList.contains(k); }).length < telas.length; });
+      for (var j = 0; j < ATIVAS.length; j++) if (cand.indexOf(ATIVAS[j]) >= 0) return ATIVAS[j];
+      if (cand.length === 1 && cand[0].length <= 8) return cand[0];
+    }
+    return 'on';
+  }
+
+  // ---------- fase 1: lê o deck como ele foi desenhado ----------
+  function opacidadeEfetiva(el, ate) { var o = 1; for (var e = el; e && e !== ate && e !== D.body; e = e.parentElement) o *= parseFloat(cs(e).opacity || '1'); return o; }
+  function midiaDentro(el) { return /^(IMG|VIDEO|PICTURE|IFRAME|MODEL-VIEWER)$/.test(el.tagName) || !!el.querySelector('img,video,picture,iframe,model-viewer'); }
+
+  function analisar(telas, ativa) {
+    var fundos = [];
+    telas.forEach(function (t, i) {
+      var rt = t.getBoundingClientRect(), areaT = Math.max(1, rt.width * rt.height);
+      var st = cs(t);
+      t.__bcFundoOriginal = st.backgroundColor;
+      if (/url\(/.test(st.backgroundImage)) fundos.push({ tela: t, el: t, bg: st.backgroundImage, pos: st.backgroundPosition });
+      arr(t.querySelectorAll('*')).forEach(function (el) {
+        var tag = el.tagName;
+        if (el.closest('svg') && tag.toLowerCase() !== 'svg') return;
+        if (el.closest('[data-bc-manter]')) return;
+        if (/^(SCRIPT|STYLE|TEMPLATE|NOSCRIPT|BR|WBR)$/.test(tag)) return;
+        if (el.closest('.roteiro,[data-roteiro],aside[hidden]')) return;
+        var s = cs(el);
+        if (s.display === 'none') return;
+        var abs = s.position === 'absolute' || s.position === 'fixed';
+        var tx = texto(el);
+        var midia = midiaDentro(el);
+        var bgUrl = /url\(/.test(s.backgroundImage);
+        var r = el.getBoundingClientRect(), area = r.width * r.height;
+        if (tag === 'CANVAS' && (abs || area / areaT > 0.4)) { el.setAttribute('data-bc-deco', ''); return; }
+        var stl = el.getAttribute('style') || '';
+        var pb = cs(el, '::before'), pa = cs(el, '::after');
+        if ((pb.content !== 'none' && /absolute|fixed/.test(pb.position)) || (pa.content !== 'none' && /absolute|fixed/.test(pa.position))) el.setAttribute('data-bc-ancora', '');
+        if (abs && el.parentElement && /(left|right)\s*:\s*[\d.]+%/.test(stl) && /(top|bottom)\s*:\s*[\d.]+%/.test(stl) && arr(el.parentElement.children).some(function (x) { return x.tagName === 'IMG' || x.tagName === 'PICTURE'; }) && r.width < 160) {
+          el.setAttribute('data-bc-ponto', ''); el.parentElement.setAttribute('data-bc-mapa', '');
+          el.__bcPos = { left: el.style.left, top: el.style.top, right: el.style.right, bottom: el.style.bottom };
+          return;
+        }
+        if (el.closest('[data-bc-ponto]')) return;
+        // barra de gráfico (preenchimento absoluto dentro de um trilho baixo): fica no trilho, na mesma proporção
+        var pr = el.parentElement ? el.parentElement.getBoundingClientRect() : null, cbg = rgb(s.backgroundColor);
+        if (abs && !tx && !midia && pr && pr.height > 0 && pr.height <= 56 && r.height >= pr.height * 0.4 && ((cbg && cbg.a > 0.3) || /gradient/.test(s.backgroundImage)) && el.parentElement !== t) {
+          el.setAttribute('data-bc-barra', ''); el.parentElement.setAttribute('data-bc-trilho', '');
+          el.__bcBarra = { left: ((r.left - pr.left) / pr.width * 100).toFixed(2) + '%', top: ((r.top - pr.top) / pr.height * 100).toFixed(2) + '%', width: (r.width / pr.width * 100).toFixed(2) + '%', height: (r.height / pr.height * 100).toFixed(2) + '%' };
+          return;
+        }
+        // galeria que troca de foto (uma visível, as outras com opacidade 0 no mesmo lugar): fica só a visível
+        if (abs && parseFloat(s.opacity) < 0.05 && el.parentElement && arr(el.parentElement.children).some(function (x) { if (x === el || x.tagName !== el.tagName) return false; var sx = cs(x); return (sx.position === 'absolute' || sx.position === 'relative') && parseFloat(sx.opacity) > 0.5; })) { el.setAttribute('data-bc-oculto', ''); return; }
+        if (abs && !tx && !midia) {
+          if (bgUrl && area / areaT > 0.1) { el.setAttribute('data-bc-fundo', area / areaT > 0.45 ? 'capa' : 'meio'); fundos.push({ tela: t, el: el }); }
+          else el.setAttribute('data-bc-deco', '');
+          return;
+        }
+        if (abs && tx) {
+          var op = opacidadeEfetiva(el, t), fs = parseFloat(s.fontSize);
+          if ((op > 0.01 && op < 0.3) || fs >= 180 || el.getAttribute('aria-hidden') === 'true') { el.setAttribute('data-bc-deco', ''); return; }
+        }
+        if (!abs && !tx && !midia && bgUrl && area / areaT > 0.25 && !el.children.length) { el.setAttribute('data-bc-fundo', 'meio'); fundos.push({ tela: t, el: el }); }
+        if (abs && midia && !tx && area / areaT > 0.4) el.setAttribute('data-bc-capa-midia', '');
+        if (el.getAttribute('aria-hidden') === 'true' && !tx && !midia && (tag !== 'svg' || (r.width > 120 && !el.querySelector('text')))) el.setAttribute('data-bc-deco', '');
+      });
+    });
+    return fundos;
+  }
+
+  // cabeçalho e navegação do deck que ficam fora das telas (fixos): saem; os logos do cabeçalho vão para a capa
+  function cromo(telas) {
+    var logos = [];
+    var tudo = arr(D.body.querySelectorAll('*'));
+    tudo.forEach(function (el) {
+      if (el.closest('[data-bc-tela]') || el.id === 'bc-nav' || el.closest('#bc-nav')) return;
+      if (telas.some(function (t) { return el.contains(t); })) return;
+      if (/^(SCRIPT|STYLE|TEMPLATE|NOSCRIPT|LINK|META)$/.test(el.tagName)) return;
+      var s = cs(el);
+      var ancestralMarcado = el.parentElement && el.parentElement.closest('[data-bc-cromo]');
+      if (ancestralMarcado) return;
+      if (s.position === 'fixed' || s.position === 'sticky' || (s.position === 'absolute' && el.parentElement && el.parentElement.hasAttribute('data-bc-palco')) || (s.position === 'absolute' && el.parentElement === D.body)) {
+        arr(el.querySelectorAll('img, svg')).forEach(function (im) {
+          if (im.parentElement.closest('svg') || im.closest('button')) return;
+          var rr = im.getBoundingClientRect(); var sv = cs(im);
+          var visivel = rr.width > 24 && rr.height > 10 && sv.display !== 'none' && sv.visibility !== 'hidden' && parseFloat(sv.opacity) > 0.2;
+          var arq = im.tagName === 'IMG' ? decodeURIComponent((im.getAttribute('src') || '').split('?')[0]).toLowerCase() : '';
+          if (visivel || (arq && LOGO.test(arq))) logos.push({ el: im, visivel: visivel, arq: arq });
+        });
+        el.setAttribute('data-bc-cromo', '');
+      }
+    });
+    var saida = logos.filter(function (x) { return !ehCasa(x.el); }).map(function (x) { return x.el; });
+    return saida;
+  }
+
+  // Logos da capa no celular (Caique/coordenação, 13/10/2026: logo da PANCO, da faixa de clientes da casa, apareceu no topo
+  // da proposta da Catupiry). Regra: só o CABEÇALHO do deck (barra fixa ou cabeçalho repetido no topo das telas, antes do
+  // título), só a marca do trabalho e a 75 LAB, nunca marcas-casa nem logo de faixa de clientes. Sem certeza: sem faixa.
+  var MARCA_JOB = (function () { var sc = D.currentScript || D.querySelector('script[data-base-deck]'); return sc ? (sc.getAttribute('data-marca') || '') : ''; })();
+  function semAcento(t) { return String(t || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
+  var TOKENS_MARCA = semAcento(MARCA_JOB).replace(/\b(grupo|marca|da|de|do|das|dos|e|the|ltda|sa|s\/a|industria|alimentos|brasil)\b/g, ' ').split(/[^a-z0-9]+/).filter(function (x) { return x.length >= 3; });
+  function caminhoDe(x) { return x && x.tagName === 'IMG' ? semAcento(decodeURIComponent((x.getAttribute('src') || '').split('?')[0])) : ''; }
+  // nome do arquivo + alt (sem a pasta: a pasta do trabalho tem o nome do cliente e casaria com qualquer foto)
+  function nomeLogo(x) { return x && x.tagName === 'IMG' ? semAcento(caminhoDe(x).split('/').pop() + ' ' + (x.getAttribute('alt') || '') + ' ' + (x.getAttribute('class') || '')) : semAcento(x && x.getAttribute ? (x.getAttribute('aria-label') || '') : ''); }
+  function eh75lab(x) { return /75\s?lab|setenta e cinco/.test(nomeLogo(x)) || /marca-75lab/.test(caminhoDe(x)); }
+  function ehCasa(x) { return /marcas-casa|clientes-casa|marcas_atendidas|\/cases\//.test(caminhoDe(x)); }
+  function ehLogo(x) { return LOGO.test(nomeLogo(x)) || eh75lab(x); }
+  function ehDaMarca(x) { var n = nomeLogo(x); return TOKENS_MARCA.length ? TOKENS_MARCA.some(function (t) { return n.indexOf(t) >= 0; }) : false; }
+  function cabecalhosDasTelas(telas) {
+    var porClasse = {}, cands = [];
+    telas.forEach(function (t, i) {
+      var titulo = t.querySelector('h1, h2');
+      arr(t.querySelectorAll('*')).forEach(function (el) {
+        // só logos (aceita um separador como "×" entre eles)
+        if (el.closest('svg') || texto(el).replace(/[×x+|·•\/\s-]/gi, '').length) return;
+        // cabeçalho é filho da tela (ou do primeiro invólucro) e vem antes do título
+        if (!(el.parentElement === t || (el.parentElement && el.parentElement.parentElement === t))) return;
+        var ims = arr(el.querySelectorAll('img')).concat(el.tagName === 'IMG' ? [el] : []);
+        var parDeMarcas = ims.length >= 2 && ims.some(eh75lab);
+        if (titulo && !parDeMarcas && !(el.compareDocumentPosition(titulo) & Node.DOCUMENT_POSITION_FOLLOWING)) return;
+        if (!ims.length || ims.length > 3) return;
+        if (ims.some(ehCasa)) return;
+        if (!ims.every(ehLogo)) return;
+        // faixa de marcas: irmãos com logos de outras empresas = não é cabeçalho
+        var irmaosComLogo = el.parentElement ? arr(el.parentElement.children).filter(function (x) { return x !== el && !texto(x).replace(/[×x+|·•\/\s-]/gi, '').length && x.querySelector && x.querySelector('img'); }).length : 0;
+        if (irmaosComLogo >= 2) return;
+        var chave = el.tagName + '.' + String(el.className || '').trim().split(/\s+/).sort().join('.');
+        porClasse[chave] = (porClasse[chave] || 0) + 1;
+        cands.push({ el: el, tela: i, chave: chave, ims: ims });
+      });
+    });
+    var pool = [];
+    cands.forEach(function (c) {
+      // par de logos (marca + 75 LAB) antes do título é cabeçalho em qualquer tela, mesmo com classe diferente
+      if (porClasse[c.chave] < 2 && c.tela !== 0 && !(c.ims.length >= 2 && c.ims.some(eh75lab))) return;
+      c.ims.forEach(function (x) { pool.push(x); });
+      c.el.setAttribute('data-bc-oculto', '');
+    });
+    return pool;
+  }
+  // escolhe no máximo 2 logos: a marca do trabalho e a 75 LAB, na versão para fundo claro quando existir
+  function logosDaCapa(pool) {
+    var CLARO = /branc|white|negativ|lime|light|inverse|claro/;
+    var vistos = {}, unicos = [];
+    pool.forEach(function (x) { if (ehCasa(x) || !ehLogo(x)) return; var k = nomeLogo(x).split(' ')[0] || x.outerHTML.slice(0, 120); if (!vistos[k]) { vistos[k] = 1; unicos.push(x); } });
+    function melhor(lista) { var escuro = lista.filter(function (x) { return !CLARO.test(nomeLogo(x)); }); return (escuro.length ? escuro : lista)[0] || null; }
+    var lab = melhor(unicos.filter(eh75lab));
+    var cliLista = unicos.filter(function (x) { return !eh75lab(x); });
+    if (TOKENS_MARCA.length) cliLista = cliLista.filter(ehDaMarca);
+    else if (cliLista.length > 1) cliLista = [];
+    var cli = melhor(cliLista);
+    var saida = [cli, lab].filter(Boolean);
+    saida.__claro = saida.length && saida.every(function (x) { return !CLARO.test(nomeLogo(x)); });
+    return saida;
+  }
+
+  // ---------- fase 2: desenha para o celular ----------
+  function papelDoTexto(el, base, ehCapa) {
+    var s = cs(el), tag = el.tagName, tx = texto(el), fs = parseFloat(s.fontSize), r = fs / base;
+    var palavras = tx.split(' ').length;
+    var cls = String(el.className && el.className.baseVal !== undefined ? el.className.baseVal : el.className || '');
+    if (/^\d{1,2}\s*\/\s*\d{1,2}$/.test(tx)) return 'contador';
+    if (tx.length <= 70 && /(setas do teclado|use as setas|deslize para|arraste para|toque para avan|clique para avan|swipe|tecla [a-z]\b|aperte f\b|tela cheia com)/i.test(tx)) return 'contador';
+    if (FONTE.test(tx) || /(^|[\s_-])(fonte|fontes|source|rodape-fonte)([\s_-]|$)/i.test(cls)) return 'fonte';
+    var digitos = /\d/.test(tx) && (tx.replace(/\D/g, '').length >= 2 || /[%+$×x]/.test(tx) || r >= 3.2), curto = tx.length <= 16;
+    if ((r >= 1.9 || /(^|[\s_-])(num|numero|kpi|stat|big|cnt|count|valor)([\s_-]|$)/i.test(cls)) && digitos && curto && !/^H[1-3]$/.test(tag)) return 'numero';
+    var pesado = parseInt(s.fontWeight, 10) >= 600 || /shoulders|anton|oswald|bebas|condensed|display|impact|archivo black|league gothic/i.test(s.fontFamily);
+    if (!/^H[1-3]$/.test(tag) && tx.length <= 11 && pesado && digitos && /^[\s+\-~≈R$€%x×.,:\/\d]+(\s?(mi|bi|mil|k|%|x|anos?|pp|p\.p\.))?\+?$/i.test(tx) && /\d/.test(tx) && !/^\d{1,2}\s*\/\s*\d{1,2}$/.test(tx)) return 'numero';
+    if (tag === 'H1') return ehCapa ? 'capa' : 'titulo';
+    if (tag === 'H2') return ehCapa && r >= 2.4 ? 'capa' : 'titulo';
+    if (tag === 'H3' || /titulo|title|headline/i.test(cls)) return r >= 2.4 ? 'titulo' : 'titulo3';
+    if (r >= 2.4) return ehCapa ? 'capa' : 'titulo';
+    if (tag === 'H4' || tag === 'H5' || r >= 1.32) return 'subtitulo';
+    var mono = /mono|courier|code/i.test(s.fontFamily);
+
+    if (mono && palavras > 12 && r <= 1.0 && tag !== 'P' || mono && palavras > 18 && r < 0.95) return 'fonte';
+    if (/(^|[\s_-])(src|nota|notas|obs|disclaimer|rodape)([\s_-]|$)/i.test(cls) && r < 0.95 && palavras > 3) return 'fonte';
+    if ((s.textTransform === 'uppercase' || mono) && palavras <= 12 && tx.length <= 90) return 'rotulo';
+    if (r < 0.86 && palavras <= 8) return 'apoio';
+    return 'corpo';
+  }
+
+  function corEfetivaDeFundo(el, tela) {
+    for (var e = el; e && e !== tela; e = e.parentElement) {
+      if (e.hasAttribute('data-bc-camada')) continue;
+      var s = cs(e);
+      if (/url\(/.test(s.backgroundImage) && !e.hasAttribute('data-bc-fundo')) return null;
+      var c = rgb(s.backgroundColor);
+      if (c && c.a > 0.55) return c;
+    }
+    return tela.hasAttribute('data-bc-par') ? PAPEL2 : PAPEL;
+  }
+
+  function escurecer(c, fundo, alvo) {
+    var r = c.r, g = c.g, b = c.b;
+    for (var i = 0; i < 24 && razao({ r: r, g: g, b: b }, fundo) < alvo; i++) { r *= 0.86; g *= 0.86; b *= 0.86; }
+    return 'rgb(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ')';
+  }
+
+  function classificarImagem(im) {
+    if (im.hasAttribute('data-bc-img') && !im.hasAttribute('data-bc-provisoria')) return;
+    im.removeAttribute('data-bc-provisoria');
+    var nw = im.naturalWidth, nh = im.naturalHeight;
+    if (!nw || !nh) { im.setAttribute('data-bc-img', LOGO.test((im.getAttribute('alt') || '') + ' ' + (im.getAttribute('src') || '').split('?')[0]) ? 'logo' : 'foto'); im.setAttribute('data-bc-provisoria', ''); return; }
+    var arq = decodeURIComponent((im.getAttribute('src') || '').split('?')[0]).split('/').pop().toLowerCase();
+    var dica = ((im.getAttribute('alt') || '') + ' ' + arq + ' ' + (im.className || '') + ' ' + (im.parentElement ? im.parentElement.className : '')).toLowerCase();
+    var asp = nw / nh;
+    var tipo;
+    var ehLogo = /logo|wordmark|brandmark/.test(arq + ' ' + (im.className || '')) || /^(logo|logotipo|marca)\b/.test((im.getAttribute('alt') || '').toLowerCase()) || /\blogo(tipo)?\b/.test((im.getAttribute('alt') || '').toLowerCase());
+    if (ehLogo || (asp >= 2.4 && nh <= 360 && !/foto|kv|hero|banner|capa|gondola|loja|render/.test(dica))) tipo = 'logo';
+    else if (Math.max(nw, nh) <= 180 || /icone|icon|ico[-_]/.test(dica)) tipo = 'icone';
+    else tipo = im.hasAttribute('data-bc-capa-midia') || (im.closest('[data-bc-capa-midia]') && im.closest('[data-bc-tela="1"]')) ? 'capa' : 'foto';
+    im.setAttribute('data-bc-img', tipo);
+    if (tipo === 'foto' && asp < 0.8) im.setAttribute('data-bc-alta', '');
+  }
+
+  function ajustarNumero(el) {
+    el.removeAttribute('data-bc-quebra');
+    var pai = el.parentElement; var disp = Math.max(120, (pai ? pai.clientWidth - parseFloat(cs(pai).paddingLeft) - parseFloat(cs(pai).paddingRight) : W.innerWidth - 44));
+    disp = Math.min(disp, W.innerWidth - 44);
+    var max = Math.min(68, Math.round(W.innerWidth * 0.165)), min = 30;
+    imp(el, 'font-size', max + 'px');
+    imp(el, 'display', 'block');
+    var w = el.scrollWidth;
+    if (w > disp) {
+      var novo = Math.max(min, Math.floor(max * disp / w) - 1);
+      imp(el, 'font-size', novo + 'px');
+      if (el.scrollWidth > disp + 1) el.setAttribute('data-bc-quebra', '');
+    }
+  }
+
+  function legendas(tela) {
+    var achadas = [];
+    arr(tela.querySelectorAll('figcaption, [class*=legenda], [class*=caption], [class*=credito], [class*=credit]')).forEach(function (c) { if (texto(c)) achadas.push(c); });
+    // texto curto de crédito colado a uma imagem (embaixo ou por cima dela)
+    arr(tela.querySelectorAll('img, [data-bc-fundo], picture')).forEach(function (im) {
+      var cont = im.parentElement; if (!cont) return;
+      var cands = arr(cont.children).concat(cont.parentElement ? arr(cont.parentElement.children) : []);
+      cands.forEach(function (c) {
+        if (c === im || c.contains(im) || achadas.indexOf(c) >= 0 || c.hasAttribute('data-bc-proprio')) return;
+        var t = texto(c);
+        if (!t || t.length > 140 || c.querySelector('img, h1, h2, h3, h4') || /^H[1-4]$/.test(c.tagName)) return;
+        var logoPerto = im.tagName === 'IMG' && LOGO.test((im.getAttribute('alt') || '') + (im.getAttribute('src') || '').split('?')[0]);
+        // texto curto logo depois da foto (irmão seguinte) e menor que o corpo também é legenda
+        var colado = (c === im.nextElementSibling || c === (im.parentElement && im.parentElement.nextElementSibling)) && parseFloat(cs(c).fontSize) <= 15 && t.length >= 6 && t.length <= 90 && /[a-zà-ú]{3}/i.test(t) && !FONTE.test(t);
+        var depois = c === im.nextElementSibling || c === (im.parentElement && im.parentElement.nextElementSibling);
+        var creditoColado = depois && t.length <= 140 && /ilustra|simula|\bfoto|imagem|render|montagem|mockup/i.test(t);
+        if ((CREDITO.test(t) || colado || creditoColado) && !logoPerto) achadas.push(c);
+      });
+    });
+    // legenda e crédito de imagem SOMEM (Caique, 13/10/2026): só a fonte de DADO fica, pequena, no pé da tela
+    achadas.forEach(function (c) { c.setAttribute('data-bc-oculto', ''); });
+  }
+
+  // tira de linhas de fonte e de rótulos os trechos que são crédito de imagem ("Fotos: ...", "imagem ilustrativa")
+  var TRECHO_CREDITO = /^(fotos?|imagens?|ilustra[cç][aã]o|ilustra[cç][oõ]es|ilustrativ\w*|cr[eé]ditos?|reprodu[cç][aã]o|divulga[cç][aã]o|render|mockup|montagem|composi[cç][aã]o ilustrativa|simula[cç][aã]o)\b|imagem ilustrativa|imagens ilustrativas|foto real|fotos reais|ilustra[cç][aã]o institucional|meramente ilustrativ|imagem de fundo|\(simula[cç][aã]o\)/i;
+  function semCreditoDeImagem(tela) {
+    arr(tela.querySelectorAll('[data-bc-papel="fonte"], [data-bc-papel="rotulo"], [data-bc-papel="apoio"], [data-bc-papel="corpo"]')).forEach(function (el) {
+      var papel = el.getAttribute('data-bc-papel');
+      arr(el.childNodes).forEach(function (n) {
+        if (n.nodeType !== 3 || !n.textContent.trim()) return;
+        var partes = n.textContent.split(/(\s*[·|]\s*|(?<=[.;])\s+)/);
+        var saida = [], mudou = false;
+        for (var k = 0; k < partes.length; k += 2) {
+          var seg = partes[k], sep = partes[k + 1] || '';
+          var forte = /^(imagens? ilustrativas?|foto real|fotos reais|ilustra[cç][aã]o institucional|simula[cç][aã]o|imagem de fundo ilustrativa)\.?$/i.test(seg.trim());
+          if (seg.trim() && TRECHO_CREDITO.test(seg.trim()) && (papel === 'fonte' || (papel === 'corpo' ? forte : /imagem ilustrativa|foto real|ilustra[cç][aã]o|simula[cç][aã]o|^fotos?\s*:|^imagens?\s*:|cr[eé]dito/i.test(seg.trim())))) { mudou = true; continue; }
+          saida.push(seg + sep);
+        }
+        if (mudou) n.textContent = saida.join('').replace(/[\s·|,;]+$/, '').replace(/^[\s·|,;]+/, '');
+      });
+      var tx = texto(el).replace(/^(fontes?|sources?)\s*[:·.]\s*$/i, '');
+      if (!tx || !/[a-z0-9]{2}/i.test(tx)) el.setAttribute('data-bc-oculto', '');
+    });
+  }
+
+  function tabelas(tela) {
+    arr(tela.querySelectorAll('table')).forEach(function (tb) {
+      var linhas = arr(tb.rows); if (!linhas.length) return;
+      var cab = arr((tb.tHead && tb.tHead.rows[0] ? tb.tHead.rows[0] : linhas[0]).cells).map(texto);
+      if (cab.length <= 2) return;
+      var temCab = !!(tb.tHead && tb.tHead.rows[0]) || arr(linhas[0].cells).every(function (c) { return c.tagName === 'TH'; });
+      var box = D.createElement('div'); box.setAttribute('data-bc-proprio', ''); box.setAttribute('data-bc-grade', '');
+      linhas.slice(temCab ? 1 : 0).forEach(function (tr) {
+        if (tr.parentElement && tr.parentElement.tagName === 'THEAD') return;
+        var card = D.createElement('div'); card.setAttribute('data-bc-cartao', 'claro'); card.setAttribute('data-bc-c', '');
+        arr(tr.cells).forEach(function (td, i) {
+          var l = D.createElement('div'); l.setAttribute('data-bc-c', '');
+          var rot = cab[i] && temCab ? cab[i] : '';
+          var tt = (td.innerText || td.textContent || '').replace(/\s+/g, ' ').trim();
+          if (i === 0) { l.setAttribute('data-bc-papel', 'subtitulo'); l.textContent = tt; }
+          else { l.setAttribute('data-bc-papel', 'apoio'); l.textContent = (rot ? rot + ': ' : '') + tt; }
+          card.appendChild(l);
+        });
+        box.appendChild(card);
+      });
+      tb.setAttribute('data-bc-oculto', '');
+      tb.parentElement.insertBefore(box, tb.nextSibling);
+    });
+  }
+
+  function aplicar(telas, ativa, fundos, logos) {
+    H.classList.add('bc-cel');
+    var corpoTamanhos = [];
+    telas.forEach(function (t, i) {
+      if (i % 2 === 1) t.setAttribute('data-bc-par', '');
+      if (ativa) t.classList.add(ativa);
+      arr(t.querySelectorAll('p, li')).forEach(function (p) { var tx = texto(p); if (tx.length > 40) corpoTamanhos.push(parseFloat(cs(p).fontSize)); });
+    });
+    // tamanho de corpo do deck (mediana): referência para saber o que é título, número, apoio
+    corpoTamanhos.sort(function (a, b) { return a - b; });
+    var base = corpoTamanhos.length ? corpoTamanhos[Math.floor(corpoTamanhos.length / 2)] : 18;
+    if (!(base > 6)) base = 18;
+
+    telas.forEach(function (t, i) {
+      var ehCapa = i === 0;
+      // foto que era fundo da tela vira bloco no topo
+      fundos.filter(function (f) { return f.tela === t && f.el === t; }).forEach(function (f) {
+        var d = D.createElement('div'); d.setAttribute('data-bc-fundo', 'capa'); d.setAttribute('data-bc-proprio', '');
+        d.style.backgroundImage = f.bg; t.insertBefore(d, t.firstChild);
+      });
+      var els = arr(t.querySelectorAll('*'));
+      // contêineres, grades e linhas
+      els.forEach(function (el) {
+        if (el.closest('svg') && el.tagName.toLowerCase() !== 'svg') return;
+        if (el.hasAttribute('data-bc-deco') || el.closest('[data-bc-deco]') || el.closest('[data-bc-ponto]') || el.closest('[data-bc-manter]')) return;
+        var s = cs(el), tag = el.tagName;
+        if (tag === 'svg' || tag === 'SVG') {
+          var rs = el.getBoundingClientRect(); var vb = el.getAttribute('viewBox');
+          var grande = rs.width > 150 || el.querySelector('text') || (vb && parseFloat(vb.split(/[ ,]+/)[2]) > 200);
+          if (!vb && el.getAttribute('width') && el.getAttribute('height') && grande) el.setAttribute('viewBox', '0 0 ' + parseFloat(el.getAttribute('width')) + ' ' + parseFloat(el.getAttribute('height')));
+          el.setAttribute('data-bc-svg', grande ? 'grafico' : 'icone');
+          return;
+        }
+        if (/^(IMG|VIDEO|CANVAS|IFRAME|PICTURE|SOURCE|MODEL-VIEWER|INPUT|SELECT|TEXTAREA|BR|HR)$/.test(tag)) return;
+        var tx = texto(el);
+        var cfx = rgb(s.backgroundColor), selo = tx.length <= 24 && !midiaDentro(el) && el.children.length <= 2 && ((cfx && cfx.a > 0.3) || (parseFloat(s.borderTopWidth) > 0 && s.borderTopStyle !== 'none' && parseFloat(s.borderLeftWidth) > 0)) && !/^H[1-4]$/.test(tag);
+        if (tx || midiaDentro(el) || el.querySelector('svg')) el.setAttribute('data-bc-c', selo || (s.display.indexOf('inline') === 0 && !el.children.length) ? 'inline' : '');
+        if (/^(UL|OL)$/.test(tag) && s.listStyleType === 'none') el.setAttribute('data-bc-c', 'lista-limpa');
+        if (s.display === 'grid' || s.display === 'inline-grid') {
+          var filhos = arr(el.children).filter(function (c) { return cs(c).display !== 'none' && !c.hasAttribute('data-bc-deco'); });
+          var soLogos = filhos.length >= 3 && filhos.every(function (c) { return !texto(c) && c.querySelector('img, svg') || c.tagName === 'IMG'; });
+          if (soLogos && !filhos.some(function (c) { var im = c.tagName === 'IMG' ? c : c.querySelector('img'); return im && LOGO.test(nomeLogo(im)); })) { el.setAttribute('data-bc-grade', 'galeria'); return; }
+          var curtos = filhos.length >= 2 && filhos.length <= 4 && filhos.every(function (c) { var tt = texto(c); return tt.length <= 18 && !c.querySelector('img'); }) && filhos.some(function (c) { return /\d/.test(texto(c)); });
+          var poucosLogos = filhos.length >= 2 && filhos.length <= 3 && filhos.every(function (c) { var im = c.tagName === 'IMG' ? c : c.querySelector('img'); return !texto(c) && im && LOGO.test((im.getAttribute('alt') || '') + ' ' + (im.getAttribute('src') || '').split('?')[0]); });
+          var chips = filhos.length >= 3 && filhos.every(function (c) { var tt = texto(c); return tt.length > 0 && tt.length <= 24 && !/\d/.test(tt) && !c.querySelector('img, p, h1, h2, h3, h4, li'); });
+          if (poucosLogos || chips) el.setAttribute('data-bc-linha', 'fica');
+          else el.setAttribute('data-bc-grade', soLogos ? 'logos' : curtos && filhos.length % 2 === 0 ? '2' : '');
+        } else if ((s.display === 'flex' || s.display === 'inline-flex') && /row/.test(s.flexDirection)) {
+          var fl = arr(el.children).filter(function (c) { return cs(c).display !== 'none' && !c.hasAttribute('data-bc-deco'); });
+          var soLog = fl.length >= 3 && fl.every(function (c) { return !texto(c) && (c.tagName === 'IMG' || c.querySelector('img, svg')); });
+          var galeria = soLog && !fl.some(function (c) { var im = c.tagName === 'IMG' ? c : c.querySelector('img'); return im && LOGO.test(nomeLogo(im)); });
+          if (galeria) { el.setAttribute('data-bc-grade', 'galeria'); return; }
+          var somaTexto = fl.reduce(function (a, c) { return a + texto(c).length; }, 0);
+          var iconeComTexto = fl.some(function (c) { return texto(c) && c.querySelector('svg, img'); });
+          var pequenos = !iconeComTexto && fl.length <= 4 && somaTexto <= 48 && fl.every(function (c) { var tt = texto(c); var img = c.tagName === 'IMG' ? c : (!tt ? c.querySelector('img') : null); return tt.length <= 28 && !c.querySelector('p, h1, h2, h3, h4, li') && !(img && !LOGO.test((img.getAttribute('alt') || '') + (img.getAttribute('src') || '').split('?')[0]) && (img.naturalWidth > 260 || !img.naturalWidth)); });
+          el.setAttribute('data-bc-linha', soLog ? 'fica' : pequenos ? 'fica' : 'coluna');
+          if (soLog) el.setAttribute('data-bc-grade', 'logos');
+        } else if (/^table/.test(s.display) && tag !== 'TABLE') { el.setAttribute('data-bc-linha', 'coluna'); }
+      });
+      tabelas(t);
+      // papéis do texto
+      var marcados = [];
+      els.forEach(function (el) {
+        if (el.closest('svg') || el.closest('[data-bc-deco]') || el.closest('[data-bc-oculto]') || el.closest('[data-bc-ponto]') || el.closest('[data-bc-manter]') || el.closest('.roteiro,[data-roteiro],aside[hidden]')) return;
+        if (/^(SCRIPT|STYLE|TEMPLATE|NOSCRIPT|OPTION|SELECT|TEXTAREA)$/.test(el.tagName)) return;
+        if (!direto(el)) return;
+        var s = cs(el);
+        if (s.display === 'none') return;
+        var dentro = marcados.some(function (m) { return m.contains(el); });
+        if (dentro && s.display.indexOf('inline') === 0) return;
+        // título montado com palavras em <span> (animação por palavra): quem recebe o papel é o bloco inteiro
+        var sobe = el;
+        while (sobe.parentElement && sobe.parentElement !== t && cs(sobe.parentElement).display.indexOf('inline') === 0 && !direto(sobe.parentElement)) sobe = sobe.parentElement;
+        var pai = sobe.parentElement;
+        var titulo = pai && /^H[1-4]$/.test(pai.tagName) && !direto(pai);
+        if (pai && pai !== t && !pai.hasAttribute('data-bc-papel') && texto(pai).length <= 220 && (titulo || (cs(sobe).display.indexOf('inline') === 0 && cs(pai).display.indexOf('inline') !== 0 && arr(pai.children).every(function (c) { return cs(c).display.indexOf('inline') === 0 || c.tagName === 'BR'; })))) {
+          el = pai; s = cs(el);
+        }
+        // linhas de um título (cada linha num bloco): o papel vai para o título inteiro
+        while (el.parentElement && el.parentElement !== t && /^H[1-4]$/.test(el.parentElement.tagName) && !direto(el.parentElement) && !el.parentElement.hasAttribute('data-bc-papel')) { el = el.parentElement; s = cs(el); }
+        if (marcados.indexOf(el) >= 0 || el.hasAttribute('data-bc-papel')) return;
+        var papel = papelDoTexto(el, base, ehCapa);
+        if (papel === 'contador') { el.setAttribute('data-bc-oculto', ''); return; }
+        el.setAttribute('data-bc-papel', papel);
+        if (papel === 'rotulo' && s.textTransform !== 'uppercase') imp(el, 'font-size', '14px');
+        marcados.push(el);
+      });
+      // ações (links e botões soltos) com área de toque de 44 px
+      arr(t.querySelectorAll('a[href], button, [role=button]')).forEach(function (a) {
+        if (a.closest('[data-bc-deco]') || a.closest('[data-bc-oculto]') || a.closest('[data-bc-ponto]')) return;
+        var p = a.parentElement && a.parentElement.closest('[data-bc-papel="corpo"], [data-bc-papel="apoio"], [data-bc-papel="fonte"]');
+        if (!p && texto(a).length <= 60) a.setAttribute('data-bc-acao', '');
+      });
+      // cartões e camadas de fundo
+      var rt = t.getBoundingClientRect(), areaT = Math.max(1, rt.width * rt.height);
+      els.forEach(function (el) {
+        if (!el.hasAttribute('data-bc-c') || el.hasAttribute('data-bc-papel') && !el.children.length) return;
+        var s = cs(el); var c = rgb(s.backgroundColor); var r = el.getBoundingClientRect();
+        var temBorda = parseFloat(s.borderTopWidth) > 0 && s.borderTopStyle !== 'none' || parseFloat(s.borderLeftWidth) > 0 && s.borderLeftStyle !== 'none';
+        var corBorda = rgb(s.borderTopColor) || rgb(s.borderLeftColor);
+        if (c && c.a > 0.55 && (r.width * r.height) / areaT > 0.62 && el.parentElement && (el.parentElement === t || el.parentElement.closest('[data-bc-tela]') === t && (r.width >= rt.width - 2))) { el.setAttribute('data-bc-camada', ''); return; }
+        if (c && c.a > 0.02 && c.a <= 0.55 || (temBorda && corBorda && lum(corBorda) > 0.6 && (!c || c.a <= 0.55))) {
+          if (texto(el).length > 6 && r.height > 40) el.setAttribute('data-bc-cartao', 'claro');
+        } else if (c && c.a > 0.55 && texto(el).length > 6 && r.height > 40) el.setAttribute('data-bc-cartao', '');
+      });
+      // espaços grandes do desenho de 1600 px viram o ritmo do celular
+      els.forEach(function (el) {
+        if (!el.hasAttribute('data-bc-c')) return;
+        if (el.hasAttribute('data-bc-papel') || el.hasAttribute('data-bc-img') || el.hasAttribute('data-bc-acao')) return;
+        var s = cs(el);
+        var mt = parseFloat(s.marginTop), mb = parseFloat(s.marginBottom);
+        if (mt > 22 || mt < 0) imp(el, 'margin-top', mt < 0 ? '0px' : '20px');
+        if (mb > 22 || mb < 0) imp(el, 'margin-bottom', mb < 0 ? '0px' : '20px');
+        if (!el.hasAttribute('data-bc-cartao')) {
+          var cf = rgb(s.backgroundColor), comFundo = cf && cf.a > 0.05 || /url\(|gradient/.test(s.backgroundImage);
+          ['left', 'right', 'top', 'bottom'].forEach(function (lado) {
+            var pv = parseFloat(s.getPropertyValue('padding-' + lado)), borda = parseFloat(s.getPropertyValue('border-' + lado + '-width')) > 0 && s.getPropertyValue('border-' + lado + '-style') !== 'none';
+            if (borda || comFundo) { if (pv > 22) imp(el, 'padding-' + lado, '16px'); }
+            else if (pv > (lado === 'left' || lado === 'right' ? 24 : 16)) imp(el, 'padding-' + lado, '0px');
+          });
+        }
+        var g = parseFloat(s.rowGap); if (g > 18) imp(el, 'row-gap', '14px');
+        var cg = parseFloat(s.columnGap); if (cg > 18) imp(el, 'column-gap', '14px');
+        if (s.whiteSpace === 'nowrap' && texto(el).length > 18) imp(el, 'white-space', 'normal');
+      });
+      arr(t.querySelectorAll('[data-bc-mapa]')).forEach(function (m) { imp(m, 'position', 'relative'); imp(m, 'width', '100%'); });
+      arr(t.querySelectorAll('[data-bc-trilho]')).forEach(function (m) { imp(m, 'position', 'relative'); });
+      arr(t.querySelectorAll('[data-bc-barra]')).forEach(function (b) { var o = b.__bcBarra || {}; imp(b, 'position', 'absolute'); imp(b, 'inset', 'auto'); ['left', 'top', 'width', 'height'].forEach(function (k) { if (o[k]) imp(b, k, o[k]); }); });
+      arr(t.querySelectorAll('[data-bc-ponto]')).forEach(function (pt) {
+        var o = pt.__bcPos || {}; imp(pt, 'position', 'absolute'); imp(pt, 'inset', 'auto');
+        ['left', 'top', 'right', 'bottom'].forEach(function (k) { if (o[k]) imp(pt, k, o[k]); });
+        imp(pt, 'min-width', '44px'); imp(pt, 'min-height', '44px'); imp(pt, 'transform', 'translate(-50%,-50%)'); imp(pt, 'z-index', '2');
+      });
+      arr(t.querySelectorAll('iframe')).forEach(function (f) {
+        if (!f.getAttribute('src')) { var u = f.getAttribute('data-src') || f.getAttribute('data-depois') || f.getAttribute('data-url') || f.getAttribute('data-antes'); if (u) f.setAttribute('src', u); }
+        f.setAttribute('loading', 'eager');
+      });
+      legendas(t);
+      semCreditoDeImagem(t);
+      // fonte de dado vai para o pé da tela
+      arr(t.querySelectorAll('[data-bc-papel="fonte"]')).forEach(function (f) {
+        var dono = f.parentElement && f.parentElement.closest('[data-bc-cartao]');
+        if (!dono && f.parentElement !== t) t.appendChild(f);
+      });
+    });
+    cores(telas);
+    // capa: logos do cabeçalho do deck
+    var capa = telas[0];
+    // a capa já mostra os logos no próprio conteúdo (antes do título): não repete numa faixa
+    var tituloCapa = capa && capa.querySelector('h1, h2');
+    var logosNaCapa = capa ? arr(capa.querySelectorAll('img')).filter(function (im) { return ehLogo(im) && !ehCasa(im) && !im.closest('[data-bc-oculto],[data-bc-deco],[data-bc-cromo]') && (!tituloCapa || (im.compareDocumentPosition(tituloCapa) & Node.DOCUMENT_POSITION_FOLLOWING)); }) : [];
+    if (logosNaCapa.length) logos = [];
+    // cabeçalho repetido: na capa ele aparece no lugar da faixa (só logos da marca e da 75 LAB)
+    if (!logosNaCapa.length && capa) arr(capa.querySelectorAll('[data-bc-oculto]')).forEach(function (h) { if (h.querySelector('img') && arr(h.querySelectorAll('img')).every(function (im) { return ehLogo(im) && !ehCasa(im) && (eh75lab(im) || ehDaMarca(im) || !TOKENS_MARCA.length); }) && !h.closest('[data-bc-deco]') && !arr(h.querySelectorAll('img')).some(function (im) { return /branc|white|negativ|lime|light|inverse|claro/.test(nomeLogo(im)); })) { h.removeAttribute('data-bc-oculto'); logos = []; } });
+    if (capa && logos.length && !capa.querySelector('.bc-marcas')) {
+      var barra = D.createElement('div'); barra.className = 'bc-marcas'; barra.setAttribute('data-bc-proprio', '');
+      var vistos = [];
+      logos.slice(0, 2).forEach(function (im) { var k = im.tagName === 'IMG' ? im.currentSrc || im.src : im.outerHTML.slice(0, 200); if (vistos.indexOf(k) >= 0) return; vistos.push(k); var c = im.cloneNode(true); arr(c.attributes).map(function (a) { return a.name; }).forEach(function (n) { if (/^(id|class|style|loading|data-bc-)/.test(n) || n.indexOf('data-bc-') === 0) c.removeAttribute(n); }); c.setAttribute('data-bc-proprio', ''); barra.appendChild(c); });
+      var fundoCapa = rgb(capa.__bcFundoOriginal);
+      var foto = capa.querySelector('[data-bc-fundo="capa"], [data-bc-img="capa"], [data-bc-capa-midia]');
+      var algumClaro = logos.some(function (x) { return /branc|white|negativ|lime|light|inverse|claro/.test(nomeLogo(x)); });
+      if (logos.__claro && !algumClaro) barra.style.background = 'transparent';
+      else if (algumClaro) barra.style.background = fundoCapa && fundoCapa.a > 0.5 && lum(fundoCapa) < 0.35 ? capa.__bcFundoOriginal : '#111110';
+      else if (fundoCapa && fundoCapa.a > 0.5 && lum(fundoCapa) < 0.35) barra.style.background = capa.__bcFundoOriginal;
+      else if (foto) barra.style.background = '#111110';
+      else barra.style.background = 'transparent';
+      capa.insertBefore(barra, capa.firstChild);
+      if (foto) imp(foto, 'margin-top', '0px');
+    }
+    if (capa && capa.querySelector('[data-bc-fundo="capa"], [data-bc-capa-midia]')) capa.setAttribute('data-bc-temcapa', '');
+  }
+
+  // cores: fundo claro e contraste garantido no texto que ficou sobre o papel (roda de novo no acabamento)
+  function cores(telas) {
+    telas.forEach(function (t) {
+      arr(t.querySelectorAll('[data-bc-papel], [data-bc-acao], .bc-fonte')).forEach(function (el) {
+        if (el.getAttribute('data-bc-papel') === 'fonte' || el.classList.contains('bc-fonte')) return;
+        var fundo = corEfetivaDeFundo(el, t); if (!fundo) return;
+        var c = rgb(cs(el).color); if (!c) return;
+        var grande = parseFloat(cs(el).fontSize) >= 24 || (parseFloat(cs(el).fontSize) >= 18.5 && parseInt(cs(el).fontWeight, 10) >= 700);
+        var alvo = grande ? 3.2 : 4.6;
+        if (razao(c, fundo) >= alvo) return;
+        var claroNoClaro = lum(fundo) > 0.5;
+        if (claroNoClaro && lum(c) > 0.55) {
+          // texto claro (era sobre fundo escuro): tinta, ou a cor escurecida quando é cor de destaque
+          var sat = Math.max(c.r, c.g, c.b) - Math.min(c.r, c.g, c.b);
+          imp(el, 'color', sat > 60 ? escurecer(c, fundo, alvo) : '#111110');
+        } else if (claroNoClaro) imp(el, 'color', escurecer(c, fundo, alvo));
+        else if (lum(c) < 0.3) imp(el, 'color', razao({ r: 242, g: 241, b: 233, a: 1 }, fundo) >= alvo ? '#F2F1E9' : '#FFFFFF'); // texto escuro sobre cartão escuro (estado de animação que não rodou)
+        arr(el.querySelectorAll('*')).forEach(function (f) { if (f.hasAttribute('data-bc-papel')) return; var cf = rgb(cs(f).color); if (cf && razao(cf, fundo) < alvo) imp(f, 'color', lum(cf) > 0.55 && Math.max(cf.r, cf.g, cf.b) - Math.min(cf.r, cf.g, cf.b) <= 60 ? '#111110' : escurecer(cf, fundo, alvo)); });
+      });
+      // bordas claras de cartões sobre o papel
+      arr(t.querySelectorAll('[data-bc-acao]')).forEach(function (a) { var s = cs(a); var b = rgb(s.borderTopColor); if (b && parseFloat(s.borderTopWidth) > 0 && lum(b) > 0.6) imp(a, 'border-color', 'rgba(17,17,16,.35)'); });
+      // ícones svg claros
+      arr(t.querySelectorAll('svg[data-bc-svg="icone"]')).forEach(function (v) { var fundo = corEfetivaDeFundo(v, t); var c = rgb(cs(v).color); if (fundo && c && razao(c, fundo) < 2.2) imp(v, 'color', escurecer(c, fundo, 3)); });
+    });
+  }
+
+  // ---------- depois que imagens e fontes chegam ----------
+  function acabamento(telas) {
+    arr(D.querySelectorAll('[data-bc-tela] img[loading="lazy"]')).forEach(function (im) { im.loading = 'eager'; });
+    arr(D.querySelectorAll('[data-bc-tela] img')).forEach(function (im) {
+      if (im.closest('[data-bc-deco]') || im.closest('.bc-marcas')) return;
+      if (im.complete) classificarImagem(im); else im.addEventListener('load', function () { classificarImagem(im); }, { once: true });
+    });
+    // contadores que ficaram no zero (o deck anima ao abrir a tela; no celular a tela não "abre")
+    arr(D.querySelectorAll('[data-bc-tela] [data-to], [data-bc-tela] [data-count], [data-bc-tela] [data-alvo], [data-bc-tela] [data-target]')).forEach(function (el) {
+      var alvo = el.getAttribute('data-to') || el.getAttribute('data-count') || el.getAttribute('data-alvo') || el.getAttribute('data-target');
+      var v = parseFloat(String(alvo).replace(',', '.')); if (!isFinite(v)) return;
+      var atual = (el.textContent || '').match(/[\d.,]+/);
+      var num = atual ? parseFloat(atual[0].replace(/\./g, '').replace(',', '.')) : NaN;
+      if (atual && num !== 0 && Math.abs(num - v) / Math.max(1, Math.abs(v)) < 0.02) return;
+      var dec = (String(alvo).split(/[.,]/)[1] || '').length; if (el.getAttribute('data-dec')) dec = +el.getAttribute('data-dec');
+      var fmt = v.toLocaleString('pt-BR', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+      if (atual) el.textContent = el.textContent.replace(atual[0], fmt); else el.textContent = (el.getAttribute('data-pre') || '') + fmt + (el.getAttribute('data-suf') || el.getAttribute('data-suffix') || '');
+    });
+    // texto que ficou invisível esperando a animação da tela
+    arr(D.querySelectorAll('[data-bc-tela] [data-bc-c], [data-bc-tela] [data-bc-papel], [data-bc-tela] img')).forEach(function (el) {
+      if (el.closest('[data-bc-deco]') || el.closest('[data-bc-oculto]')) return;
+      var s = cs(el);
+      if (parseFloat(s.opacity) < 0.05) imp(el, 'opacity', '1');
+      if (s.visibility === 'hidden') imp(el, 'visibility', 'visible');
+    });
+    // palavras e trechos em linha dentro de um bloco com papel seguem o tamanho do bloco
+    arr(D.querySelectorAll('[data-bc-tela] [data-bc-papel] *')).forEach(function (f) {
+      if (f.closest('svg') || f.hasAttribute('data-bc-papel')) return;
+      var dono = f.parentElement && f.parentElement.closest('[data-bc-papel]');
+      if (cs(f).display.indexOf('inline') !== 0 && !(dono && /^H[1-4]$/.test(dono.tagName))) return;
+      if (f.tagName === 'IMG' || f.tagName === 'svg') return;
+      imp(f, 'font-size', 'inherit'); imp(f, 'line-height', 'inherit');
+    });
+    arr(D.querySelectorAll('[data-bc-tela] [data-bc-papel] *')).forEach(function (f) {
+      if (f.closest('svg') || f.closest('[data-bc-papel="fonte"]') || !direto(f)) return;
+      if (parseFloat(cs(f).fontSize) < 14.5) imp(f, 'font-size', 'max(.5em, 15px)');
+    });
+    telas.forEach(function (t) {
+      var vistas = {};
+      arr(t.querySelectorAll('img')).forEach(function (im) {
+        if (im.closest('[data-bc-oculto],[data-bc-deco],.bc-marcas') || /logo|icone|icon/.test(im.getAttribute('data-bc-img') || '') || cs(im).display === 'none') return;
+        var k = (im.currentSrc || im.src || '').split('?')[0]; if (!k) return;
+        if (vistas[k]) im.setAttribute('data-bc-oculto', ''); else vistas[k] = 1;
+      });
+    });
+    arr(D.querySelectorAll('[data-bc-tela] [data-bc-papel="numero"]')).forEach(ajustarNumero);
+    cores(telas);
+    // título com palavra longa: diminui até caber
+    arr(D.querySelectorAll('[data-bc-tela] [data-bc-papel="capa"], [data-bc-tela] [data-bc-papel="titulo"], [data-bc-tela] [data-bc-papel="titulo3"], [data-bc-tela] [data-bc-papel="subtitulo"]')).forEach(function (el) {
+      var lim = el.clientWidth; var tam = parseFloat(cs(el).fontSize); var n = 0;
+      while (el.scrollWidth > lim + 1 && n < 10) { tam = tam * 0.93; imp(el, 'font-size', tam.toFixed(1) + 'px'); n++; }
+      if (el.scrollWidth > lim + 1) imp(el, 'overflow-wrap', 'anywhere');
+    });
+    // o que ainda vaza para o lado: quebra, vira coluna ou encolhe
+    arr(D.querySelectorAll('[data-bc-tela] *')).forEach(function (el) {
+      if (el.closest('svg') || el.closest('[data-bc-deco]') || el.closest('[data-bc-oculto]')) return;
+      var r = el.getBoundingClientRect(); if (!r.width) return;
+      if (r.right > W.innerWidth + 1 || r.left < -1) {
+        var s = cs(el);
+        if (/flex/.test(s.display)) { el.setAttribute('data-bc-linha', 'coluna'); }
+        else if (/grid/.test(s.display)) { el.setAttribute('data-bc-grade', ''); }
+        else if (el.tagName === 'IMG' || el.tagName === 'VIDEO') { imp(el, 'width', '100%'); imp(el, 'height', 'auto'); }
+        else if (direto(el)) { imp(el, 'overflow-wrap', 'anywhere'); imp(el, 'white-space', 'normal'); }
+        else imp(el, 'width', 'auto');
+      }
+    });
+  }
+
+  // ---------- navegação ----------
+  function navegacao(telas) {
+    if (telas.length < 2 || D.getElementById('bc-nav')) return;
+    var nav = D.createElement('div'); nav.id = 'bc-nav'; nav.setAttribute('aria-hidden', 'true'); nav.setAttribute('data-bc-proprio', '');
+    var trilho = telas.length > 18;
+    if (trilho) { nav.className = 'bc-trilho'; nav.appendChild(D.createElement('b')); }
+    else telas.forEach(function () { nav.appendChild(D.createElement('i')); });
+    D.body.appendChild(nav);
+    var atual = -1;
+    function marcar() {
+      var meio = W.innerHeight * 0.42, idx = 0;
+      for (var i = 0; i < telas.length; i++) { if (telas[i].getBoundingClientRect().top <= meio) idx = i; }
+      if (idx === atual) return; atual = idx;
+      if (trilho) nav.firstChild.style.height = Math.round(((idx + 1) / telas.length) * 100) + '%';
+      else arr(nav.children).forEach(function (d, i) { d.className = i === idx ? 'bc-agora' : ''; });
+    }
+    var parado = null;
+    W.addEventListener('scroll', function () { marcar(); nav.classList.add('bc-rolando'); clearTimeout(parado); parado = setTimeout(function () { nav.classList.remove('bc-rolando'); }, 1400); }, { passive: true });
+    marcar();
+  }
+
+  // botão "Roteiro" do modo apresentador: no celular sai do canto fixo (cobriria o texto) e vai para o fim da página
+  function roteiroNoFim(telas) {
+    var b = D.getElementById('botao-roteiro'); if (!b || !telas.length) return;
+    var ult = telas[telas.length - 1];
+    var box = D.createElement('div'); box.className = 'bc-rodape'; box.setAttribute('data-bc-proprio', '');
+    ult.parentElement.insertBefore(box, ult.nextSibling);
+    box.appendChild(b);
+    b.removeAttribute('data-bc-cromo');
+    ['position', 'top', 'right', 'left', 'bottom', 'opacity', 'z-index'].forEach(function (k) { b.style.removeProperty(k); });
+  }
+
+  // o deck não pode mais passar tela por gesto, roda ou tecla no celular: a página rola
+  function travarGestosDoDeck() {
+    ['touchstart', 'touchmove', 'touchend', 'wheel', 'keydown', 'pointerdown', 'pointermove', 'pointerup', 'mousemove'].forEach(function (ev) {
+      W.addEventListener(ev, function (e) {
+        if (!H.classList.contains('bc-cel')) return;
+        if (ev === 'keydown' && !/^(Arrow|Page|Home|End| |Spacebar)/.test(e.key || '')) return;
+        if (/^pointer/.test(ev) && e.target && e.target.closest && e.target.closest('a,button,input,select,textarea,[role=button],[onclick]')) return;
+        e.stopImmediatePropagation();
+      }, { capture: true, passive: true });
+    });
+  }
+
+  function manterTelasAtivas(telas, ativa) {
+    if (!ativa || !W.MutationObserver) return;
+    var mo = new MutationObserver(function () { telas.forEach(function (t) { if (!t.classList.contains(ativa)) t.classList.add(ativa); }); });
+    telas.forEach(function (t) { mo.observe(t, { attributes: true, attributeFilter: ['class'] }); });
+  }
+
+  // página responsiva (one-pager sem telas): não redesenha, só tira o que vaza para o lado
+  function consertarPagina() {
+    var largo = function () { return Math.max(H.scrollWidth, D.body.scrollWidth) > largura() + 1; };
+    if (!largo()) return;
+    // 1) mídia nunca mais larga que a tela
+    arr(D.body.querySelectorAll('img, video, iframe, canvas, svg, table, pre')).forEach(function (el) { var r = el.getBoundingClientRect(); if (r.right > largura() + 1 && !/fixed/.test(cs(el).position)) { imp(el, 'max-width', '100%'); if (el.tagName !== 'TABLE' && el.tagName !== 'PRE') imp(el, 'height', 'auto'); } });
+    // 2) sobra pequena (até 24 px, sombra ou borda): corta na página; maior que isso fica para a conferência apontar
+    if (largo() && Math.max(H.scrollWidth, D.body.scrollWidth) - largura() <= 24) { imp(H, 'overflow-x', 'hidden'); imp(D.body, 'overflow-x', 'hidden'); }
+  }
+
+  var feito = false;
+  function iniciar() {
+    if (feito || !D.body) return;
+    if (!querCelular()) return;
+    var telas = acharTelas();
+    if (!telas.length) { if (!H.hasAttribute('data-bc-pronto')) H.setAttribute('data-bc-pronto', '0'); consertarPagina(); return; }
+    feito = true;
+    try {
+      telas.forEach(function (t, i) {
+        t.setAttribute('data-bc-tela', String(i + 1));
+        for (var p = t.parentElement; p && p !== D.body && p !== H; p = p.parentElement) p.setAttribute('data-bc-palco', '');
+      });
+      var ativa = classeAtiva(telas);
+      // lê o desenho com todas as telas abertas e sem animação
+      var trava = D.createElement('style'); trava.textContent = '*,*::before,*::after{transition:none!important;animation-play-state:paused!important}';
+      D.head.appendChild(trava);
+      telas.forEach(function (t) { if (ativa) t.classList.add(ativa); });
+      void D.body.offsetHeight;
+      var fundos = analisar(telas, ativa);
+      var logos = logosDaCapa(cabecalhosDasTelas(telas).concat(cromo(telas)));
+      aplicar(telas, ativa, fundos, logos);
+      trava.remove();
+      travarGestosDoDeck();
+      manterTelasAtivas(telas, ativa);
+      navegacao(telas);
+      roteiroNoFim(telas);
+      acabamento(telas);
+      W.addEventListener('load', function () { acabamento(telas); });
+      if (D.fonts && D.fonts.ready) D.fonts.ready.then(function () { acabamento(telas); });
+      setTimeout(function () { acabamento(telas); }, 1600);
+      setTimeout(function () { acabamento(telas); W.scrollTo(0, 0); }, 3200);
+      H.setAttribute('data-bc-pronto', String(telas.length));
+    } catch (e) {
+      // qualquer falha: volta ao deck original, sem a base
+      H.classList.remove('bc-cel');
+      H.setAttribute('data-bc-erro', String(e && e.message || e).slice(0, 160));
+    }
+  }
+
+  // troca de tamanho que cruza o limite: recarrega (desfazer o desenho do celular não vale o risco)
+  var larguraInicial = largura(), estadoInicial = null;
+  W.addEventListener('resize', function () {
+    if (Math.abs(largura() - larguraInicial) < 40) return;
+    clearTimeout(W.__bcRz);
+    W.__bcRz = setTimeout(function () { var agora = largura() < 900; if (estadoInicial !== null && agora !== estadoInicial && !FORCAR) location.reload(); }, 350);
+  });
+  function comecar() { estadoInicial = largura() < 900; iniciar(); }
+  if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', comecar); else comecar();
+  W.addEventListener('load', function () { setTimeout(iniciar, 60); });
+  setTimeout(iniciar, 900);
+})();
+</script>
+</body>
+</html>
