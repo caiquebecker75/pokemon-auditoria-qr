@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR" data-kit-deck data-cliente="Pokémon" data-logo-cliente="assets/01-oficina-1792159617893-logo.png" data-logo-cliente-escuro="assets/01-oficina-1792159617893-logo.png" data-logo-75lab="assets/02-oficina-1792160291835-logo75-black.png" data-logo-75lab-escuro="assets/02-oficina-1792160291835-logo75-black.png">
 <head>
-<style data-kit-deck-css="1.0.0">
+<style data-kit-deck-css="1.1.0">
 /* =====================================================================
-   KIT DE DECK 75 LAB · v1.0.0 (13/10/2026)
+   KIT DE DECK 75 LAB · v1.1.0 (13/10/2026; 18/10/2026: transição, tela de peça e conceito)
    Tirado do código dos decks feitos à mão que o Caique aprovou:
    Parmalat Fit Hub (palco, corte de cinema, contador, abas, planta clicável,
    cursor em dois tons, grão, lightbox) e Lactalis Food Service (cortina com
@@ -240,6 +240,52 @@ body.k-hov.k-rot #k-cur span{opacity:1}
 .k-sangria-img{position:absolute;top:0;bottom:0;right:0;width:54%;overflow:hidden}
 .k-sangria-img img{width:100%;height:100%;object-fit:cover;display:block}
 
+/* tela de transição: divisor de capítulo (Caique, 18/10/2026: "considere tela de transição nas apresentações") */
+.slide.k-divisor{display:flex;flex-direction:column;justify-content:center;background:var(--k-marca);color:var(--k-marca-txt)}
+.slide.k-divisor.k-escuro{background:var(--k-escuro);color:var(--k-papel)}
+.slide.k-divisor.k-papel{background:var(--k-papel);color:var(--k-tinta)}
+.k-divisor .k-div-num{position:absolute;right:var(--k-pad);bottom:64px;font-family:var(--k-f-tit);font-weight:900;font-size:300px;line-height:.8;letter-spacing:-.05em;opacity:.16;font-variant-numeric:tabular-nums}
+.k-divisor .k-div-cap{display:flex;align-items:center;gap:14px;margin:0 0 24px;font-family:var(--k-f-rot);font-weight:700;font-size:14px;letter-spacing:.24em;text-transform:uppercase}
+.k-divisor .k-div-cap i{display:block;width:56px;height:2px;background:currentColor}
+.k-divisor .k-mega{max-width:1120px}
+.k-divisor .k-div-ponte{max-width:780px;margin:28px 0 0;font-size:24px;line-height:1.45;opacity:.82}
+.k-divisor .k-div-trilha{display:flex;flex-wrap:wrap;gap:10px;margin-top:56px}
+.k-divisor .k-div-trilha span{padding:10px 14px;border:2px solid currentColor;font:700 12px var(--k-f-rot);letter-spacing:.16em;text-transform:uppercase;opacity:.38}
+.k-divisor .k-div-trilha span.on{opacity:1;border-width:3px}
+
+/* tela de peça: uma por peça sugerida, foto na vida real + recorte em fundo neutro + o que é, como funciona, racional e
+   benefícios com ícones (Caique, 18/10/2026) */
+.k-peca{display:grid;grid-template-columns:1.08fr .92fr;gap:44px;height:100%;align-items:stretch}
+.k-peca-fotos{display:grid;grid-template-columns:1.55fr 1fr;gap:14px;min-height:0}
+.k-peca-fotos figure{position:relative;margin:0;overflow:hidden;background:var(--k-papel-2)}
+.k-peca-fotos img{display:block;width:100%;height:100%;object-fit:cover}
+.k-peca-fotos .k-peca-recorte{display:grid;place-items:center;background:#fff}
+.k-peca-fotos .k-peca-recorte img{object-fit:contain;padding:18px}
+.k-peca-txt{display:flex;flex-direction:column;gap:10px;min-height:0}
+.k-peca-txt .k-sub{margin:0 0 6px}
+.k-peca-bloco{display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start;padding:12px 0 0;border-top:2px solid var(--k-linha)}
+.k-peca-bloco svg{width:32px;height:32px;fill:none;stroke:var(--k-marca-2);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.k-escuro .k-peca-bloco svg{stroke:var(--k-marca)}
+.k-peca-bloco h4{margin:0 0 4px;font:700 12px var(--k-f-rot);letter-spacing:.18em;text-transform:uppercase;color:var(--k-tinta-2)}
+.k-peca-bloco p{margin:0;font-size:16px;line-height:1.45}
+.k-peca-benef{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.k-peca-benef div{padding:10px 12px;background:var(--k-papel-2)}
+.k-escuro .k-peca-benef div{background:rgba(255,255,255,.07)}
+.k-peca-benef b{display:block;margin-bottom:4px;font:700 11px var(--k-f-rot);letter-spacing:.16em;text-transform:uppercase;color:var(--k-marca-2)}
+.k-peca-benef span{font-size:14px;line-height:1.4}
+
+/* conceito explicado (One Shot, On Timing, Códice, ClickLab...): o que é, como funciona e benefício, com fluxo de ícones */
+.k-conceito{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.k-conceito>div{padding:22px 22px 24px;border-top:4px solid var(--k-marca-2)}
+.k-escuro .k-conceito>div{border-top-color:var(--k-marca)}
+.k-conceito h4{margin:0 0 8px;font:700 12px var(--k-f-rot);letter-spacing:.18em;text-transform:uppercase;color:var(--k-tinta-2)}
+.k-conceito p{margin:0;font-size:17px;line-height:1.45}
+.k-fluxo{display:flex;align-items:center;gap:0;margin:26px 0 0}
+.k-fluxo>span{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:120px;font:700 11px var(--k-f-rot);letter-spacing:.14em;text-transform:uppercase;text-align:center}
+.k-fluxo>span svg{width:46px;height:46px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.k-fluxo>i{flex:1;height:2px;min-width:40px;background:currentColor;opacity:.35;position:relative}
+.k-fluxo>i::after{content:"";position:absolute;right:-1px;top:-5px;border:6px solid transparent;border-left-color:currentColor}
+
 @media (prefers-reduced-motion:reduce){
   html.k-js .slide [data-a],html.k-js .slide .k-linha>span{transition:none!important;opacity:1!important;transform:none!important;filter:none!important}
   .slide,.k-kb,#k-grao,.k-ponto::before{animation:none!important}
@@ -260,7 +306,7 @@ body.k-hov.k-rot #k-cur span{opacity:1}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#141B34;--blue:#2A4B9B;--yel:#FFCB05;--red:#D62F2F;--paper:#FFFDF5;--soft:#F3EFE0;--lime:#C0EE4E;--mut:#5A6078}
+:root{--ink:#141B34;--blue:#15171c;--yel:#FFCB05;--red:#D62F2F;--paper:#FFFDF5;--soft:#F3EFE0;--lime:#C0EE4E;--mut:#5A6078}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:var(--paper);color:var(--ink);font-family:'Space Grotesk',system-ui,sans-serif;overflow:hidden}
 h1,h2,h3{font-family:'Big Shoulders Display',Impact,sans-serif;font-weight:900;letter-spacing:.2px;line-height:.98;text-transform:none}
@@ -398,10 +444,10 @@ img.z{cursor:zoom-in}
 .par{display:inline-block;margin-top:6px;font:700 14px 'Space Grotesk';color:var(--red);letter-spacing:.06em;text-transform:uppercase}
 /* s12 */
 #s12{background:var(--blue);color:#fff}
-#s12 .pg,#s12 .fonte{color:#c9d3f2}
+#s12 .pg,#s12 .fonte{color:#d9dbe3}
 #s12 h1{font-size:150px;position:absolute;left:64px;top:150px;width:1100px}
 #s12 h1 em{color:var(--yel)}
-.inst{position:absolute;left:64px;bottom:60px;display:grid;grid-template-columns:repeat(3,auto);gap:12px 56px;font-size:18px;line-height:1.4;color:#e5ebff}
+.inst{position:absolute;left:64px;bottom:60px;display:grid;grid-template-columns:repeat(3,auto);gap:12px 56px;font-size:18px;line-height:1.4;color:#eceef4}
 .inst b{display:block;font:700 13px 'Space Grotesk';letter-spacing:.16em;text-transform:uppercase;color:var(--yel);margin-bottom:2px}
 .wa{position:absolute;right:64px;top:520px;background:var(--lime);color:var(--ink);font:700 28px 'Space Grotesk';padding:26px 40px;border-radius:99px;text-decoration:none;min-height:44px}
 .wa:hover{transform:scale(1.04)}
@@ -457,6 +503,97 @@ img.z{cursor:zoom-in}
  .roteiro{display:none}
 }
 
+
+/* v9 */
+.s2n{width:700px}
+.s2n h3{font-size:54px;line-height:1;color:var(--ink)}
+.s2n h3 em{color:var(--red)}
+.s2n p{font-size:22px;line-height:1.35;color:#2b3150;max-width:620px;margin-top:14px}
+.s3l{position:absolute;left:64px;top:130px;width:540px}
+.s3l .s3h{position:relative;left:auto;top:auto;width:auto;font-size:66px}
+.s4h{position:absolute;left:64px;top:110px;width:1300px;font-size:76px}
+.dg2{position:absolute;left:64px;right:64px;top:300px}
+.dg2 .rw{display:grid;grid-template-columns:1fr 150px 1fr 150px 1fr;align-items:stretch}
+.nd{position:relative;background:#fff;border:3px solid var(--ink);border-radius:22px;padding:26px 28px 30px}
+.nd.a{background:var(--yel)}
+.nd h3{font-size:52px;margin:6px 0}.nd p{font-size:22px;line-height:1.3;color:#2b3150}
+.nd .k{color:var(--ink)}
+.nd .stop{position:absolute;left:28px;bottom:-18px;background:var(--red);color:#fff;font:700 15px 'Space Grotesk';letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;border-radius:99px}
+.ar{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font:700 16px 'Space Grotesk';color:var(--ink)}
+.ar svg{width:100%;height:40px}
+.ar path,.back path{fill:none;stroke:var(--ink);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
+.on .ar path{animation:draw 1s ease forwards;animation-delay:1s}
+.back{position:relative;margin-top:54px;height:120px}
+.back svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.back path{stroke:#2c8a1a;stroke-width:5}
+.on .back path{animation:draw 1.6s ease forwards;animation-delay:1.8s}
+.back .bk{position:absolute;left:50%;top:84px;transform:translateX(-50%);background:#2c8a1a;color:#fff;font:700 22px 'Space Grotesk';padding:12px 26px;border-radius:99px;white-space:nowrap}
+.s8l{position:absolute;left:64px;top:104px;width:720px}
+.s8l h2{font-size:56px}
+.s8i{position:absolute;left:840px;top:104px;width:696px;height:392px;border-radius:18px;overflow:hidden;border:3px solid var(--ink)}
+.s8c{position:absolute;left:64px;right:64px;top:530px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.cm{background:var(--soft);border-radius:20px;padding:22px 26px;border-top:8px solid var(--ink)}
+.cm.g{border-top-color:var(--red)}.cm.j{border-top-color:#2c8a1a}
+.cm .tg{display:inline-block;font:700 14px 'Space Grotesk';letter-spacing:.16em;text-transform:uppercase;color:var(--ink);background:var(--yel);padding:4px 12px;border-radius:99px;margin-left:12px;vertical-align:top}
+.cm .ic{display:inline-block;margin-bottom:6px}
+.cm.g .ic *{stroke:var(--red)}.cm.j .ic *{stroke:#2c8a1a}
+.cm .ic *{stroke:var(--ink)}
+.cm h3{font-size:40px;margin:2px 0 6px}.cm p{font-size:21px;line-height:1.3;color:#2b3150}
+.s9t{position:absolute;left:64px;top:104px}
+.s9h{position:absolute;left:64px;top:160px;width:1350px;font-size:66px}
+.l9{position:absolute;left:150px;right:150px;top:436px;height:6px;background:rgba(20,27,52,.22);border-radius:3px}
+.l9 i{display:block;height:100%;width:0;background:var(--ink);border-radius:3px}
+.on .l9 i{animation:fill 2.2s .6s ease forwards}
+.step5{position:absolute;left:64px;right:64px;top:396px;display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.step5 button{background:none;border:0;font:inherit;color:inherit;display:flex;flex-direction:column;align-items:center;text-align:center;cursor:pointer;transition:transform .25s}
+.step5 button:hover,.step5 button.open{transform:translateY(-6px)}
+.step5 .n{width:86px;height:86px;border-radius:50%;background:var(--ink);color:var(--lime);display:grid;place-items:center;font:900 46px 'Big Shoulders Display';border:6px solid var(--yel);box-shadow:0 0 0 3px var(--ink)}
+.step5 b{font:900 34px/1 'Big Shoulders Display';margin:22px 0 10px}
+.step5 .ds{font-size:20px;line-height:1.3;color:#2b3150;max-width:250px}
+@media (max-width:899px){
+ .s2n{width:auto!important}.s2n h3{font-size:34px}
+ .s3l .s3h{font-size:38px}
+ .dg2 .rw{display:grid;grid-template-columns:1fr;gap:16px}
+ .ar,.back svg{display:none}.back{height:auto;margin-top:30px}.back .bk{position:static;transform:none;white-space:normal;display:block;font-size:18px;text-align:center;border-radius:16px}
+ .nd .stop{position:static;display:inline-block;margin-top:12px}
+ .nd h3{font-size:34px}.nd p{font-size:17px}
+ .s8c{display:grid;grid-template-columns:1fr!important}
+ .s8i{height:auto!important}
+ .s8l h2{font-size:38px!important}
+ .step5{display:grid;grid-template-columns:1fr!important}
+ .step5 button{flex-direction:row;text-align:left;gap:14px;align-items:center;flex-wrap:wrap}
+ .step5 .n{width:56px;height:56px;font-size:30px}
+ .step5 b{font-size:26px;margin:0;flex:1}.step5 .ds{flex-basis:100%;font-size:17px;max-width:none;padding-left:70px}
+ .l9{display:none}
+ .s9h{font-size:38px!important}
+}
+@media (prefers-reduced-motion:reduce){.ar path,.back path{stroke-dashoffset:0}.l9 i{width:100%}}
+
+/* v9 divisores */
+.k-divisor{background:var(--yel)!important;color:var(--ink)!important;display:block}
+.dv-n{position:absolute;left:64px;top:150px;font:900 220px/0.8 'Big Shoulders Display';color:var(--ink);opacity:.9}
+.dv-t{position:absolute;left:64px;top:380px;width:1100px;font-size:120px}
+.k-divisor .lede{position:absolute;left:64px;top:560px;width:900px;color:var(--ink);font-size:28px}
+.dv-tr{position:absolute;left:64px;bottom:110px;display:flex;gap:14px;flex-wrap:wrap}
+.dv-tr span{font:700 16px 'Space Grotesk';letter-spacing:.12em;text-transform:uppercase;padding:10px 18px;border-radius:99px;border:2px solid var(--ink)}
+.dv-tr span.on{background:var(--ink);color:var(--lime)}
+.dv-tr b{font-weight:700;opacity:.7;margin-right:4px}
+@media (max-width:899px){.dv-n{font-size:110px!important}.dv-t{font-size:44px!important}.k-divisor .lede{font-size:20px!important}.dv-tr span{font-size:14px}}
+
+/* v9b telas de peca */
+.pcm{position:absolute;top:128px;width:860px;height:573px;border-radius:18px;overflow:hidden;border:3px solid var(--ink);background:#0b0b0d}
+.pcl{left:64px}.pcr{right:64px;height:645px;top:118px}
+.pcin{position:absolute;right:14px;bottom:14px;width:290px;height:163px;border-radius:12px;overflow:hidden;border:3px solid #fff;box-shadow:0 6px 24px rgba(0,0,0,.35);background:#0b0b0d}
+.pcin img{width:100%;height:100%;object-fit:cover;display:block}
+.pcin2{right:auto;left:14px;width:270px;height:180px}
+.pct{position:absolute;right:64px;top:128px;width:600px}
+.pcl2{right:auto;left:64px;width:640px}
+.pcb{display:flex;gap:16px;align-items:flex-start;padding:14px 0;border-top:2px solid var(--ink)}
+.pcb h3{font-size:26px;margin-bottom:4px}.pcb p{font-size:20px;line-height:1.3;color:var(--mut)}
+.pci{flex:0 0 46px;height:46px;border-radius:50%;background:var(--yel);display:flex;align-items:center;justify-content:center;color:var(--ink)}
+@media (max-width:899px){.pcm,.pct{position:static!important;width:100%!important;height:auto!important;aspect-ratio:3/2}.pct{aspect-ratio:auto}.pcr{aspect-ratio:4/3}.pcin{width:34%!important;height:auto!important;aspect-ratio:16/9}.pcb h3{font-size:24px}.pcb p{font-size:17px}}
+.prox{position:absolute;right:64px;top:330px;width:360px;font-size:22px;line-height:1.35;color:#eceef4}
+@media (max-width:899px){.prox{position:static!important;width:auto!important;color:var(--ink)!important;font-size:18px!important;margin:12px 0}}
 /* v7: motor do kit */
 .hdr,.pg{display:none}
 #palco.k-ui-claro #k-llab{filter:invert(1)}
@@ -464,7 +601,7 @@ img.z{cursor:zoom-in}
 .k-ponto{z-index:4}
 .s5info{position:absolute;left:700px;bottom:110px;width:480px;background:rgba(20,27,52,.93);color:#fff;border-radius:16px;padding:22px 26px;z-index:3}
 .s5info h3{font-size:34px!important;margin:0 0 8px!important;color:#fff}
-.s5info p{font-size:20px!important;line-height:1.4!important;color:#e5ebff!important}
+.s5info p{font-size:20px!important;line-height:1.4!important;color:#eceef4!important}
 .five button,.gc{font:inherit;text-align:left;cursor:pointer;color:inherit}
 .five button{background:#fff;border-radius:16px;padding:16px 24px;display:grid;grid-template-columns:70px 1fr 1fr;gap:18px;align-items:center;border:3px solid var(--ink);transition:transform .25s,background .25s}
 .five button.open,.five button:hover{background:var(--soft);transform:translateX(-10px)}
@@ -475,7 +612,7 @@ img.z{cursor:zoom-in}
 .s2h{position:absolute;left:64px;top:130px;width:680px}
 .onblue{color:#fff}.onblue em{color:var(--yel)}
 .s2f{position:absolute;left:64px;top:410px;width:680px;display:grid;gap:26px}
-.s2f .pessoa{border-top-color:var(--yel)}.s2f .pessoa p{color:#e5ebff;font-size:22px}.s2f .pessoa .k{color:var(--yel)}
+.s2f .pessoa{border-top-color:var(--yel)}.s2f .pessoa p{color:#eceef4;font-size:22px}.s2f .pessoa .k{color:var(--yel)}
 .s2f h3{color:#fff}
 .s2n{position:absolute;left:880px;top:130px}
 .s2n .num{font-size:150px;line-height:.9;color:var(--red)}
@@ -485,7 +622,7 @@ img.z{cursor:zoom-in}
 .mi{height:96px;display:flex;align-items:center;justify-content:center;background:#fff;border:2px solid rgba(20,27,52,.12);border-radius:16px;padding:10px 14px}
 .mi img{max-height:52px;max-width:150px;object-fit:contain;filter:grayscale(1);opacity:.85}
 .mi span{font:700 26px 'Big Shoulders Display';color:#5a6078;letter-spacing:.04em;text-transform:uppercase;text-align:center;line-height:1}
-#s2 .fonte{color:#c9d3f2}
+#s2 .fonte{color:#d9dbe3}
 #s3{background:var(--paper)}
 .s3h{position:absolute;left:64px;top:150px;width:520px;font-size:78px}
 .g4{position:absolute;left:660px;right:64px;top:110px;bottom:130px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:22px}
@@ -567,9 +704,9 @@ html.k-js:not(.k-mob) .slide:not(.on){pointer-events:none}
 
 <!-- 1 CAPA -->
 <section class="slide" id="s1" data-titulo="Capa" data-capitulo="Capa" data-transicao="corte">
- <div class="bg"><img src="assets/03-oficina-1792170978923-display-balcao.jpg" alt="Display de balcão Pokémon com boosters e decks" style="width:100%;height:100%;object-fit:cover;display:block"></div><div class="veil"></div>
+ <div class="bg"><img data-img="kv" src="assets/03-oficina-1792170978923-display-balcao.jpg" alt="Display de balcão Pokémon com boosters e decks" style="width:100%;height:100%;object-fit:cover;display:block"></div><div class="veil"></div>
  <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div>
- <div class="pg">01 / 12</div>
+ <div class="pg">01 / 16</div>
  <div class="tx">
   <span class="tag st" style="--i:0">Proposta para a Pokémon · outubro de 2026</span>
   <h1 class="st" style="--i:1">Cada peça da onda vira <em>prova</em> de execução.</h1>
@@ -580,84 +717,99 @@ html.k-js:not(.k-mob) .slide:not(.on){pointer-events:none}
 
 <!-- 2 75 LAB -->
 <section class="slide" id="s2" data-titulo="Quem somos" data-capitulo="Quem somos" data-transicao="deslize" data-ui="claro">
- <div class="hdr w"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon" style="background:#fff;border-radius:8px;padding:4px 8px"><i style="background:rgba(255,255,255,.35)"></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB" style="filter:invert(1)"></div><div class="pg onblue" style="color:#fff">02 / 12</div>
+ <div class="hdr w"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon" style="background:#fff;border-radius:8px;padding:4px 8px"><i style="background:rgba(255,255,255,.35)"></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB" style="filter:invert(1)"></div><div class="pg onblue" style="color:#fff">02 / 16</div>
  <h2 class="t-m s2h onblue st" style="--i:0">Quem desenha a peça já teve de <em>instalar</em> e cobrar peça igual.</h2>
  <div class="s2f onblue">
   <div class="pessoa st" style="--i:1"><h3>Caique Becker</h3><p class="k" style="margin-bottom:6px">Cofundador · Head de Trade</p><p>Veio do varejo: conhece o ponto de venda por quem opera a loja.</p></div>
   <div class="pessoa st" style="--i:2"><h3>Daniel Coimbra</h3><p class="k" style="margin-bottom:6px">Cofundador · CEO</p><p>Veio da indústria: pensa a marca pelo resultado na ponta.</p></div>
  </div>
- <div class="s2n st" style="--i:3"><span class="num"><span data-conta="15">15</span>+</span><p>anos vivendo a distância entre a marca e a loja</p></div>
+ <div class="s2n st" style="--i:3"><h3>Dois lados do balcão. <em>Uma pergunta só:</em> a ideia chegou à loja?</h3><p>Varejo e indústria na mesma mesa, para a marca ver na ponta o que decidiu na sala.</p></div>
  <div class="mlab st" style="--i:3">Marcas que confiam na 75 LAB</div>
  <div class="mgrid st" style="--i:4">
-  <div class="mi"><img src="assets/04-logo-1791747187168.svg" alt="Logo Petz"></div><div class="mi"><img src="assets/05-logo-1791767893295.png" alt="Logo Coop"></div><div class="mi"><img src="assets/06-logo-1791747186188.png" alt="Logo Capital das Cestas"></div>
-  <div class="mi"><img src="assets/07-logo-1792160197807.svg" alt="Logo LG"></div><div class="mi"><span>Riachuelo</span></div><div class="mi"><span>TCL</span></div>
-  <div class="mi"><span>Grupo Pereira</span></div><div class="mi"><span>Drogarias DPSP</span></div>
+  <div class="mi"><img src="assets/04-logo-1791747187168.svg" alt="Logo Petz"></div><div class="mi"><img src="assets/05-oficina-1792413374979-logo-boticario.png" alt="Logo O Boticário"></div><div class="mi"><img src="assets/06-logo-1792160197807.svg" alt="Logo LG"></div>
+  <div class="mi"><img src="assets/07-oficina-1792413375832-logo-tcl.png" alt="Logo TCL"></div><div class="mi"><img src="assets/08-oficina-1792413376685-logo-panasonic.png" alt="Logo Panasonic"></div><div class="mi"><img src="assets/09-oficina-1792413377564-logo-polenghi.png" alt="Logo Polenghi"></div>
+  <div class="mi"><span>Polenguinho</span></div><div class="mi"><span>Coop</span></div><div class="mi"><img src="assets/10-oficina-1792413712374-logo-whirlpool.png" alt="Logo Whirlpool"></div>
  </div>
  <div class="fonte">Fonte: trajetória dos sócios e carteira de clientes da 75 LAB, 2025 e 2026.</div>
- <aside class="roteiro" hidden>A 75 LAB nasceu de dois lados que quase nunca se sentam à mesma mesa. O Caique veio do varejo e conhece o ponto de venda por quem opera a loja. Eu vim da indústria e penso a marca pelo resultado. São mais de quinze anos vivendo a distância entre o que a marca quer e o que acontece na loja. Por isso, quem desenha a nossa solução já teve de aprovar, instalar e cobrar uma peça igual. Fazemos estratégia de PDV, materiais, rastreamento de execução com QR e plataformas próprias. Mas o que já fizemos juntos, Gabriela?</aside>
+ <aside class="roteiro" hidden>A 75 LAB nasceu de dois lados que quase nunca se sentam à mesma mesa. O Caique veio do varejo e conhece o ponto de venda por quem opera a loja. Eu vim da indústria e penso a marca pelo resultado. Vivemos a distância entre o que a marca decide e o que chega à loja, dos dois lados do balcão. Por isso, quem desenha a nossa solução já teve de aprovar, instalar e cobrar uma peça igual. Fazemos estratégia de PDV, materiais, rastreamento de execução com QR e plataformas próprias. Mas o que já fizemos juntos, Gabriela?</aside>
 </section>
 
 <!-- 3 HISTÓRIA -->
 <section class="slide" id="s3" data-titulo="Nossa história juntos" data-capitulo="Nossa história juntos" data-transicao="corte">
- <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">03 / 12</div>
- <h2 class="t-l s3h st" style="--i:0">Já olhamos a loja de cartas por dentro. <em>Falta provar a execução.</em></h2>
+ <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">03 / 16</div>
+ <div class="s3l st" style="--i:0"><h2 class="t-l s3h">Já percorremos a loja com a Pokémon. <em>Agora provamos a execução.</em></h2><p class="lede" style="margin-top:22px">A 75 LAB já fez com a Pokémon quatro entregas, da visita em campo à tecnologia de auditoria.</p></div>
  <div class="g4">
-  <button type="button" data-tog class="gc st" style="--i:1"><span class="d">Jun/2026</span><h3>Análise de potencial em PDV</h3><p>Visibilidade e compra por impulso no ponto de venda.</p></button>
-  <button type="button" data-tog class="gc st" style="--i:2"><span class="d">05/08/2026</span><h3>Jornada do Treinador</h3><div class="num"><span data-conta="4">4</span></div><p>territórios de loja para organizar o canal.</p></button>
-  <button type="button" data-tog class="gc st" style="--i:3"><span class="d">Set/2026</span><h3>Pesquisa Retail</h3><div class="num"><span data-conta="69">69</span></div><p>lojas em <b><span data-conta="28">28</span> cidades</b>, com coleta de foto, GPS e data.</p></button>
-  <button type="button" data-tog class="gc now st" style="--i:4"><span class="d">Agora</span><h3>Auditoria da próxima onda</h3><p>O mesmo olhar de campo, agora sobre o material que a Pokémon financia e a COPAG instala.</p></button>
+  <button type="button" data-tog class="gc st" style="--i:1"><span class="d">Jun</span><h3>Trade Safari</h3><p>Visita exploratória em campo e proposta de material de PDV (MPDV).</p></button>
+  <button type="button" data-tog class="gc st" style="--i:2"><span class="d">Ago</span><h3>Proposta de segmentação de lojas</h3><p>Lojas separadas por perfil, para a Pokémon decidir onde investir.</p></button>
+  <button type="button" data-tog class="gc st" style="--i:3"><span class="d">Set</span><h3>Projeto Pesquisa Retail</h3><p>Pesquisa de campo, com coleta de foto, GPS e data.</p></button>
+  <button type="button" data-tog class="gc now st" style="--i:4"><span class="d">Ago</span><h3>Tecnologia e auditoria de positivação no PDV</h3><p>A proposta de hoje: QR e TAG GPS para provar a execução da próxima onda.</p></button>
  </div>
- <div class="fonte">Fonte: projetos da 75 LAB para a Pokémon em 2026 (Análise de potencial em PDV, Jornada do Treinador e roteiro da Pesquisa Retail).</div>
- <aside class="roteiro" hidden>Nossa história com a Pokémon já tem três capítulos. Em junho, a Análise de potencial em PDV, sobre visibilidade e compra por impulso. Em cinco de agosto, a Jornada do Treinador, com quatro territórios de loja para organizar o canal. Em setembro, o roteiro da Pesquisa Retail: sessenta e nove lojas, vinte e oito cidades, com foto, GPS e data. Esse é o nosso jeito de olhar a loja. O quarto capítulo é a auditoria do material da próxima onda. E o desafio dele começa numa pergunta simples sobre quem sabe o quê.</aside>
+ <div class="fonte">Fonte: projetos da 75 LAB para a Pokémon em 2026.</div>
+ <aside class="roteiro" hidden>Antes de falar da auditoria, o que já fizemos juntos. Em junho, o Trade Safari: visita exploratória em campo e proposta de material de PDV. Em agosto, a proposta de segmentação de lojas. Em setembro, o projeto Pesquisa Retail. E em agosto, a tecnologia e a auditoria de positivação no PDV. É o mesmo olhar de campo, agora sobre o material da próxima onda. E o desafio dele começa numa pergunta simples: quem sabe o quê?</aside>
 </section>
 
 <!-- 4 DIAGRAMA -->
+<section class="slide k-divisor" id="d1" data-titulo="O desafio" data-capitulo="O desafio" data-transicao="zoom">
+ <div class="dv-n st" style="--i:0">01</div>
+ <h2 class="dv-t st" style="--i:1">O desafio</h2>
+ <p class="lede st" style="--i:2">A Pokémon investe no material. Falta saber onde o dado se perde.</p>
+ <div class="dv-tr st" style="--i:3"><span class="on"><b>01</b> O desafio</span><span class=""><b>02</b> A solução</span><span class=""><b>03</b> A medição</span><span class=""><b>04</b> O plano</span></div>
+ <aside class="roteiro" hidden>Começamos pelo desafio. A Pokémon é dona do investimento no material de ponto de venda e a COPAG executa nas lojas. Entre a peça que sai e a peça que chega, o dado se perde. Nas próximas telas, mostramos onde ele para, e por que isso importa para quem investe na onda.</aside>
+</section>
+
 <section class="slide" id="s4" data-titulo="O problema" data-capitulo="O problema" data-transicao="cortina">
- <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">04 / 12</div>
- <h2 class="t-l" style="position:absolute;left:64px;top:120px;width:1380px"><span class="st" style="--i:0;display:block">A Pokémon paga o material, mas <em>não enxerga</em> onde ele foi parar.</span></h2>
- <div class="dg">
-  <div class="node a st" style="--i:1"><span class="k" style="color:var(--ink)">Investe</span><h3>Pokémon</h3><p>Paga o material de ponto de venda.</p></div>
-  <div class="node b st" style="--i:2"><span class="k">Executa</span><h3>COPAG</h3><p>Instala nas lojas e não precisa compartilhar o dado.</p></div>
-  <div class="node c st" style="--i:3"><span class="k">Vende</span><h3>Loja</h3><p>Onde o material deveria estar, e o shopper decide.</p></div>
-  <svg viewBox="0 0 1472 420" preserveAspectRatio="none">
-   <path class="p1" pathLength="1" d="M335 120 L595 120" stroke="#141B34"/>
-   <path class="p2" pathLength="1" d="M935 120 L1130 120" stroke="#141B34"/>
-   <path class="p3" pathLength="1" d="M1300 215 C1300 380 300 380 170 215" stroke="#4a9b1f" style="stroke-dasharray:1"/>
-  </svg>
-  <div class="lbl l1">paga e entrega</div><div class="lbl l2">instala</div>
-  <div class="lbl l3">hoje o dado para aqui</div><div class="lbl l4">QR na base da peça + painel: o caminho de volta, da loja para a Pokémon</div>
+ <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">05 / 16</div>
+ <h2 class="t-l s4h"><span class="st" style="--i:0;display:block">A Pokémon paga o material, mas <em>não enxerga</em> onde ele foi parar.</span></h2>
+ <div class="dg2">
+  <div class="rw">
+   <div class="nd a st" style="--i:1"><span class="k">1 · Investe</span><h3>Pokémon</h3><p>Paga o material de ponto de venda.</p></div>
+   <div class="ar st" style="--i:2"><svg viewBox="0 0 120 40"><path pathLength="1" d="M4 20 H108 M96 8 L110 20 L96 32"/></svg><span>paga e entrega</span></div>
+   <div class="nd b st" style="--i:3"><span class="k">2 · Executa</span><h3>COPAG</h3><p>Instala nas lojas e não precisa compartilhar o dado.</p></div>
+   <div class="ar st" style="--i:4"><svg viewBox="0 0 120 40"><path pathLength="1" d="M4 20 H108 M96 8 L110 20 L96 32"/></svg><span>instala</span></div>
+   <div class="nd c st" style="--i:5"><span class="k">3 · Vende</span><h3>Loja</h3><p>Onde o material deveria estar, e o shopper decide.</p><b class="stop">hoje o dado para aqui</b></div>
+  </div>
+  <div class="back st" style="--i:6">
+   <svg viewBox="0 0 1472 120" preserveAspectRatio="none"><path pathLength="1" d="M1290 4 C1290 100 1200 112 1100 112 H372 C272 112 182 100 182 16 M166 34 L182 8 L198 34"/></svg>
+   <span class="bk">QR na base da peça + painel: o caminho de volta, da loja para a Pokémon</span>
+  </div>
  </div>
  <div class="fonte">Fonte: briefing da Pokémon à 75 LAB, 16/10/2026.</div>
  <aside class="roteiro" hidden>Este é o desenho do problema. A Pokémon é dona do investimento no material de ponto de venda. A COPAG executa nas lojas e não tem a obrigação de compartilhar o dado das lojas. Então a Pokémon paga, a peça segue, mas o caminho de volta não existe. Ela não sabe quando cada peça foi instalada, em quais lojas, nem se a execução foi competente. E também não sabe quais lojas vendem os produtos dela. Nossa proposta desenha esse caminho de volta, usando o sistema de QR que já operamos, sem pedir nada a mais para o consumidor.</aside>
 </section>
 
 <!-- 5 QR NA BASE -->
-<section class="slide" id="s5" data-titulo="A etiqueta" data-capitulo="A etiqueta" data-transicao="corte">
- <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg" style="color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.5)">05 / 12</div>
- <div class="tx">
-  <span class="k st" style="--i:0">A etiqueta</span>
-  <h2 class="t-l st" style="--i:1;margin:12px 0 22px">O shopper não vê o QR. <em>O instalador sempre vê.</em></h2>
-  <p class="lede st" style="--i:2">Etiqueta de cerca de 4 x 5 cm na base ou no verso de cada peça, colada antes da expedição. Nunca na frente.</p>
-  <div class="zero st" style="--i:3"><span class="num"><span data-conta="0">0</span></span><p>QR à vista do shopper</p></div>
+<section class="slide k-divisor" id="d2" data-titulo="A solução" data-capitulo="A solução" data-transicao="deslize">
+ <div class="dv-n st" style="--i:0">02</div>
+ <h2 class="dv-t st" style="--i:1">A solução</h2>
+ <p class="lede st" style="--i:2">Um QR na base de cada peça e uma TAG GPS nos displays pesados.</p>
+ <div class="dv-tr st" style="--i:3"><span class=""><b>01</b> O desafio</span><span class="on"><b>02</b> A solução</span><span class=""><b>03</b> A medição</span><span class=""><b>04</b> O plano</span></div>
+ <aside class="roteiro" hidden>Agora a solução. Usamos o sistema de QR que a 75 LAB já opera, com a etiqueta na base ou no verso da peça, longe do olhar do shopper. Quem instala lê o QR e registra a loja com foto. Nos displays pesados entra também a TAG GPS. Vamos ver como isso funciona na prática, tela por tela.</aside>
+</section>
+
+<section class="slide" id="s5" data-peca="Display de balcão com selo QR no verso" data-titulo="Peça 1 · selo QR" data-capitulo="A etiqueta" data-transicao="corte">
+ <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">07 / 16</div>
+ <div class="pcm pcl k-pontos" data-k="pontos"><img data-img="cena" src="assets/11-oficina-1792171167978-verso.jpg" alt="Display de balcão visto por trás, na loja, com o selo de QR na base" style="width:100%;height:100%;object-fit:cover;display:block"><button type="button" class="k-ponto" style="left:41%;top:66.5%" data-titulo="Selo na base" data-texto="Cerca de 4 x 5 cm, voltado para trás. Só o instalador chega até ele." aria-label="Selo na base"></button><div class="pcin"><img data-img="recorte" src="assets/12-oficina-1792413859558-recorte-display-a.jpg" alt="Display de balcão Pokémon em fundo neutro"></div></div>
+ <div class="pct">
+  <span class="k st" style="--i:0">Peça 1 · selo QR no verso</span>
+  <h2 class="t-m st" style="--i:1;margin:10px 0 18px">O shopper não vê o QR. <em>O instalador sempre vê.</em></h2>
+  <div class="pcb st" style="--i:2"><span class="pci"><svg viewBox="0 0 32 32" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="22" height="22" rx="3"/><path d="M11 12h10M11 16h10M11 20h6"/></svg></span><div><h3>O que é</h3><p>Selo adesivo numerado, de 4 x 5 cm, colado na base ou no verso do display.</p></div></div><div class="pcb st" style="--i:3"><span class="pci"><svg viewBox="0 0 32 32" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="16" r="3"/><path d="M8 16a8 8 0 0 1 16 0M4 16a12 12 0 0 1 24 0"/></svg></span><div><h3>Como funciona</h3><p>O instalador lê com a câmera, confere a montagem e registra loja e foto.</p></div></div><div class="pcb st" style="--i:4"><span class="pci"><svg viewBox="0 0 32 32" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4v6M16 22v6M4 16h6M22 16h6"/><circle cx="16" cy="16" r="5"/></svg></span><div><h3>Racional</h3><p>A Pokémon paga e a COPAG instala: o selo prova onde cada peça chegou.</p></div></div><div class="pcb st" style="--i:5"><span class="pci"><svg viewBox="0 0 32 32" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17l6 6 14-14"/></svg></span><div><h3>Benefícios</h3><p>Marca: prova de execução. Varejo: nada na frente. Shopper: vitrine limpa.</p></div></div>
  </div>
- <div class="ph k-pontos" data-k="pontos"><img src="assets/08-oficina-1792171167978-verso.jpg" alt="Display de balcão visto por trás, com a etiqueta de QR na base" style="width:100%;height:100%;object-fit:cover;object-position:30% center;display:block"><button type="button" class="k-ponto" style="left:45.4%;top:68.6%" data-titulo="Etiqueta na base" data-texto="Cerca de 4 x 5 cm, voltada para trás. Só o instalador chega até ela." aria-label="Etiqueta na base"></button></div>
- 
  <div class="fonte">Fonte: proposta 75 LAB para a Pokémon; sistema Produtos 75 LAB.</div>
- <aside class="roteiro" hidden>Uma regra que o Caique deixou clara: o QR nunca é aplicado para o cliente ver. Ele fica sempre na base ou no verso da peça. Na foto, o display de balcão visto por trás: a etiqueta fica na parte baixa, voltada para a parede, com cerca de quatro por cinco centímetros. Quem lê é o instalador da COPAG, no fim da montagem, e o auditor, em uma revisita. O shopper nunca é o leitor. Toquem no ponto para ver o detalhe. A etiqueta é gerada pelo nosso sistema e colada na expedição. Mas o que o instalador vê quando lê?</aside>
+ <aside class="roteiro" hidden>Esta é a primeira peça da auditoria: o display de balcão com o selo de QR. O selo é um adesivo de cerca de quatro por cinco centímetros, colado na base ou no verso, nunca na frente. Quem instala lê com a câmera, confere a montagem e registra a loja com foto. A Pokémon paga o material e a COPAG instala, então o selo prova onde cada peça chegou. O shopper vê um display limpo.</aside>
 </section>
 
 <!-- 6 SISTEMA CELULAR -->
 <section class="slide" id="s6" data-titulo="Página do QR" data-capitulo="Página do QR" data-transicao="deslize">
- <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">06 / 12</div>
+ <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">08 / 16</div>
  <div style="position:absolute;left:64px;top:130px;width:540px">
   <span class="tag st" style="--i:0">Sistema Produtos 75 LAB · exemplo Pokémon</span>
   <h2 class="t-m st" style="--i:1;margin-top:20px">Em um minuto o instalador confere a montagem e <em style="color:var(--ink);text-decoration:underline">registra a loja</em>.</h2>
  </div>
  <div class="steps st" style="--i:3"><div><b>1</b>Lê o QR com a câmera, sem baixar app</div><div><b>2</b>Confere montagem, medidas e checklist</div><div><b>3</b>Informa a loja e tira a foto da fachada</div></div>
  <div class="phones">
-  <div class="ph2 st" style="--i:2"><img class="z" src="assets/09-oficina-1792170976386-sys-p0.jpg" alt="Página da peça aberta pelo QR, com objetivo e passo a passo"></div>
-  <div class="ph2 m st" style="--i:3"><img class="z" src="assets/10-oficina-1792170977387-sys-m1.jpg" alt="Formulário de registro da instalação"></div>
-  <div class="ph2 st" style="--i:4"><img class="z" src="assets/11-oficina-1792170978245-sys-m2.jpg" alt="Confirmação de instalação registrada"></div>
+  <div class="ph2 st" style="--i:2"><img class="z" src="assets/13-oficina-1792170976386-sys-p0.jpg" alt="Página da peça aberta pelo QR, com objetivo e passo a passo"></div>
+  <div class="ph2 m st" style="--i:3"><img class="z" src="assets/14-oficina-1792170977387-sys-m1.jpg" alt="Formulário de registro da instalação"></div>
+  <div class="ph2 st" style="--i:4"><img class="z" src="assets/15-oficina-1792170978245-sys-m2.jpg" alt="Confirmação de instalação registrada"></div>
  </div>
  <div class="fonte">Fonte: sistema Produtos 75 LAB, páginas reais com dados de exemplo (loja e equipe fictícias).</div>
  <aside class="roteiro" hidden>Estas são telas reais do nosso sistema, aqui com um exemplo Pokémon. O instalador lê o QR com a câmera, sem baixar aplicativo. A primeira tela mostra a peça, o objetivo e o passo a passo da montagem. Depois ele informa a loja e a rede, tira a foto da fachada, e a localização é registrada. A terceira tela confirma: instalação registrada. É isso que comprova a execução no painel. O telefone do instalador fica guardado, e a página avisa sobre a coleta. Clique em qualquer tela para ampliar. E o que a Pokémon enxerga do outro lado?</aside>
@@ -665,10 +817,10 @@ html.k-js:not(.k-mob) .slide:not(.on){pointer-events:none}
 
 <!-- 7 PAINEL -->
 <section class="slide" id="s7" data-titulo="Painel ao vivo" data-capitulo="Painel ao vivo" data-transicao="corte">
- <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">07 / 12</div>
+ <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">09 / 16</div>
  <h2 class="t-m" style="position:absolute;left:64px;top:110px;width:1400px"><span class="st" style="--i:0;display:block">A Pokémon acompanha a onda <em>ao vivo</em>, sem login.</span></h2>
  <div class="tabs st" style="--i:1"><button class="on" data-t="0">Indicadores</button><button data-t="1">Ritmo e positivação</button><button data-t="2">Mapa e link do cliente</button></div>
- <div class="scr st" style="--i:2"><img class="z on" src="assets/12-oficina-1792170973287-sys-d0.jpg" alt="Painel de instalações: indicadores de lojas positivadas"><img class="z" src="assets/13-oficina-1792170974493-sys-d1.jpg" alt="Painel: ritmo de execução e positivação por rede"><img class="z" src="assets/14-oficina-1792170975495-sys-d3.jpg" alt="Painel: mapa das lojas e criação de link para o cliente"></div>
+ <div class="scr st" style="--i:2"><img class="z on" src="assets/16-oficina-1792170973287-sys-d0.jpg" alt="Painel de instalações: indicadores de lojas positivadas"><img class="z" src="assets/17-oficina-1792170974493-sys-d1.jpg" alt="Painel: ritmo de execução e positivação por rede"><img class="z" src="assets/18-oficina-1792170975495-sys-d3.jpg" alt="Painel: mapa das lojas e criação de link para o cliente"></div>
  <ul class="side7 st" style="--i:3"><span class="tag lime">Painel de exemplo · dados fictícios</span>
   <li>Lojas positivadas e ritmo do campo, dia a dia</li><li>Positivação por rede, cidade, estado e promotor</li><li>Link só da Pokémon: sem login, com validade, e o telefone nunca aparece</li></ul>
  <div class="fonte">Fonte: Painel de instalações da 75 LAB, tela real com dados de exemplo (redes e equipes fictícias).</div>
@@ -676,34 +828,53 @@ html.k-js:not(.k-mob) .slide:not(.on){pointer-events:none}
 </section>
 
 <!-- 8 PESADO -->
-<section class="slide" id="s8" data-titulo="Display pesado" data-capitulo="Display pesado" data-transicao="cortina" data-ui="claro">
- <div class="ph"><img class="z" src="assets/15-oficina-1792160293790-espaco-treinador-loja.jpg" alt="Display grande da Pokémon em corredor de loja" style="width:100%;height:100%;object-fit:cover;object-position:center 36%;display:block"></div>
- <div class="hdr w"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon" style="background:#fff;border-radius:8px;padding:4px 8px"><i style="background:rgba(255,255,255,.35)"></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB" style="filter:invert(1)"></div><div class="pg onblue" style="color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.5)">08 / 12</div>
- <div class="s8t">
-  <span class="k st" style="--i:0">Display pesado</span>
-  <h2 class="t-m st" style="--i:1;margin:12px 0 0">No display pesado, o QR registra a montagem e a <em>etiqueta mostra onde ele está</em>.</h2>
-  <p class="lede st" style="--i:4;margin-top:22px;font-size:22px">Conferência sem depender da memória de ninguém.</p>
+<section class="slide" id="s8" data-titulo="GPS x QR" data-capitulo="GPS x QR" data-transicao="cortina">
+ <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">10 / 16</div>
+ <div class="s8l"><span class="k st" style="--i:0">Display pesado · TAG GPS e QR</span>
+  <h2 class="t-m st" style="--i:1;margin:12px 0 0">O QR prova a instalação. <em>A TAG GPS vigia</em> o material depois dela.</h2>
+  <p class="lede st" style="--i:2;margin-top:18px;font-size:22px">QR nas peças leves. TAG GPS nos displays pesados.</p></div>
+ <div class="s8i st" style="--i:2"><img class="z" src="assets/19-oficina-1792413372846-display-slide8-16x9.png" alt="Display de balcão da Pokémon com boosters e decks" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+ <div class="s8c">
+  <div class="cm st" style="--i:3"><svg class="ic" viewBox="0 0 56 56"><rect x="8" y="8" width="16" height="16"/><rect x="32" y="8" width="16" height="16"/><rect x="8" y="32" width="16" height="16"/><path d="M32 32h6v6h-6zM42 42h6v6h-6z"/></svg><span class="tg">Leitura única</span><h3>QR · leitura única</h3><p>Registra a instalação só quando o instalador ou o promotor escaneia. Depende da ação dele.</p></div>
+  <div class="cm g st" style="--i:4"><svg class="ic" viewBox="0 0 56 56"><circle class="pul" cx="28" cy="24" r="8"/><path d="M28 50C16 36 12 30 12 24a16 16 0 0 1 32 0c0 6-4 12-16 26z"/></svg><span class="tg">Sempre ligada</span><h3>TAG GPS · sempre ligada</h3><p>Mostra a posição do material em tempo real, sem depender de ninguém.</p></div>
+  <div class="cm j st" style="--i:5"><svg class="ic" viewBox="0 0 56 56"><path d="M10 28h12M34 28h12"/><circle cx="28" cy="28" r="6"/><path d="M6 28h0M50 28h0"/></svg><span class="tg">Juntos</span><h3>Prova e vigilância</h3><p>Com a TAG, a Pokémon sabe quando o material se move e age antes de perder a peça.</p></div>
  </div>
- <div class="s8d"><div class="duo">
-   <div class="st" style="--i:2"><svg class="ic" viewBox="0 0 56 56"><rect x="8" y="8" width="16" height="16"/><rect x="32" y="8" width="16" height="16"/><rect x="8" y="32" width="16" height="16"/><path d="M32 32h6v6h-6zM42 42h6v6h-6z"/></svg><h3>QR na base</h3><p>O instalador registra a montagem com foto, no mesmo fluxo das peças leves.</p></div>
-   <div class="st" style="--i:3"><svg class="ic" viewBox="0 0 56 56"><circle class="pul" cx="28" cy="24" r="8"/><path d="M28 50C16 36 12 30 12 24a16 16 0 0 1 32 0c0 6-4 12-16 26z"/></svg><h3>Etiqueta de localização</h3><p>Escondida na estrutura. A posição é conferida em revisita, sem monitoramento contínuo.</p></div>
-  </div>
-  </div>
  <div class="fonte">Fonte: proposta 75 LAB para a Pokémon.</div>
- <aside class="roteiro" hidden>Nos displays pesados, como o Espaço Treinador, a conta é diferente: são poucas peças, grandes e de maior investimento. Elas levam o mesmo QR na base, para registrar a montagem com foto. E levam também uma etiqueta de localização, escondida na estrutura. Vamos ser claros: ela não promete monitoramento contínuo. A posição é conferida em revisita e aparece no painel. Isso já responde se o display continua onde deveria estar, sem depender da memória de ninguém. Com isso, a régua da COPAG passa a ser medida.</aside>
+ <aside class="roteiro" hidden>Aqui está a diferença entre as duas tecnologias. O QR é uma leitura única: só existe registro quando o promotor ou o instalador escaneia, então depende da ação dele. A TAG GPS fica sempre ligada e mostra onde o material está em tempo real. O ganho é saber quando o material se move, antes da perda. Por isso o QR vai nas peças leves e a TAG nos displays pesados, que valem mais. Com isso, a régua da COPAG passa a ser medida.</aside>
+</section>
+<section class="slide" id="s8b" data-peca="TAG GPS no display pesado" data-titulo="Peça 2 · TAG GPS" data-capitulo="A TAG GPS" data-transicao="deslize">
+ <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">11 / 16</div>
+ <div class="pct pcl2">
+  <span class="k st" style="--i:0">Peça 2 · TAG GPS no display pesado</span>
+  <h2 class="t-m st" style="--i:1;margin:10px 0 18px">A TAG fica sob a base e <em>vigia o display</em> depois da instalação.</h2>
+  <div class="pcb st" style="--i:2"><span class="pci"><svg viewBox="0 0 32 32" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="22" height="22" rx="3"/><path d="M11 12h10M11 16h10M11 20h6"/></svg></span><div><h3>O que é</h3><p>Etiqueta de localização GPS colada sob a base do display pesado.</p></div></div><div class="pcb st" style="--i:3"><span class="pci"><svg viewBox="0 0 32 32" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="16" r="3"/><path d="M8 16a8 8 0 0 1 16 0M4 16a12 12 0 0 1 24 0"/></svg></span><div><h3>Como funciona</h3><p>Leva a posição do display ao painel, sem depender do instalador.</p></div></div><div class="pcb st" style="--i:4"><span class="pci"><svg viewBox="0 0 32 32" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4v6M16 22v6M4 16h6M22 16h6"/><circle cx="16" cy="16" r="5"/></svg></span><div><h3>Racional</h3><p>O display pesado vale mais: se sair do lugar, a Pokémon precisa saber.</p></div></div><div class="pcb st" style="--i:5"><span class="pci"><svg viewBox="0 0 32 32" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17l6 6 14-14"/></svg></span><div><h3>Benefícios</h3><p>Marca: protege o material. Varejo: display no ponto combinado. Shopper: peça sempre à vista.</p></div></div>
+ </div>
+ <div class="pcm pcr"><img data-img="recorte" src="assets/20-oficina-1792413861279-recorte-display-base.jpg" alt="Display de balcão Pokémon em fundo neutro" style="width:100%;height:100%;object-fit:cover;display:block"><div class="pcin pcin2"><img data-img="cena" src="assets/21-oficina-1792413862578-cena-base-verso.jpg" alt="Display Pokémon visto por trás, na loja, com a base à mostra"></div></div>
+ <div class="fonte">Fonte: proposta 75 LAB para a Pokémon.</div>
+ <aside class="roteiro" hidden>Esta é a segunda peça: a TAG GPS, que vai nos displays pesados, os que valem mais. Ela fica sob a base, fora da vista, e leva a posição do display para o painel sem depender de ninguém. O QR prova que a peça foi instalada. A TAG ajuda a saber se ela continua onde deveria estar. Assim a Pokémon protege o investimento que fez no display.</aside>
 </section>
 
+
 <!-- 9 RÉGUA -->
+<section class="slide k-divisor" id="d3" data-titulo="A medição" data-capitulo="A medição" data-transicao="zoom">
+ <div class="dv-n st" style="--i:0">03</div>
+ <h2 class="dv-t st" style="--i:1">A medição</h2>
+ <p class="lede st" style="--i:2">Cinco medidas e um mapa de lojas que a Pokémon passa a ter.</p>
+ <div class="dv-tr st" style="--i:3"><span class=""><b>01</b> O desafio</span><span class=""><b>02</b> A solução</span><span class="on"><b>03</b> A medição</span><span class=""><b>04</b> O plano</span></div>
+ <aside class="roteiro" hidden>Chegamos à medição. Tudo o que o instalador registra vira indicador no painel e, no fim, vira o mapa de lojas da Pokémon. Veja as cinco medidas que respondem se a execução da COPAG foi competente, e como os registros viram insight sobre loja, região e material.</aside>
+</section>
+
 <section class="slide" id="s9" data-titulo="A régua" data-capitulo="A régua" data-transicao="corte">
- <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">09 / 12</div>
- <div class="big5 num st" style="--i:0"><span data-conta="5">5</span></div>
- <h2 class="t-m" style="position:absolute;left:64px;top:560px;width:540px;font-size:62px"><span class="st" style="--i:1;display:block">A régua da COPAG passa a ser <em style="color:#fff">medida</em>, loja a loja.</span></h2>
- <div class="five">
-  <button type="button" data-tog class="st" style="--i:1"><span class="n">01</span><b>Tempo de implantação</b><span>Dias entre a saída da onda e o registro em cada loja</span></button>
-  <button type="button" data-tog class="st" style="--i:2"><span class="n">02</span><b>Lojas instaladas</b><span>Lojas com registro contra as planejadas</span></button>
-  <button type="button" data-tog class="st" style="--i:3"><span class="n">03</span><b>Lojas positivadas</b><span>Quais lojas têm material e quais não têm</span></button>
-  <button type="button" data-tog class="st" style="--i:4"><span class="n">04</span><b>Base de lojas</b><span>Rede, cidade e estado de cada loja que vende</span></button>
-  <button type="button" data-tog class="st" style="--i:5"><span class="n">05</span><b>Book de fotos</b><span>Fachada e peça, loja a loja, da execução</span></button>
+ <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">13 / 16</div>
+ <span class="tag lime s9t st" style="--i:0">As medidas da auditoria</span>
+ <h2 class="t-m s9h"><span class="st" style="--i:1;display:block">Cinco medidas mostram, loja a loja, se a execução foi <em>competente</em>.</span></h2>
+ <div class="l9"><i></i></div>
+ <div class="step5">
+  <button type="button" data-tog class="st" style="--i:2"><span class="n">1</span><b>Tempo de implantação</b><span class="ds">Dias entre a saída da onda e o registro em cada loja</span></button>
+  <button type="button" data-tog class="st" style="--i:3"><span class="n">2</span><b>Lojas instaladas</b><span class="ds">Lojas com registro contra as planejadas</span></button>
+  <button type="button" data-tog class="st" style="--i:4"><span class="n">3</span><b>Lojas positivadas</b><span class="ds">Quais lojas têm material e quais não têm</span></button>
+  <button type="button" data-tog class="st" style="--i:5"><span class="n">4</span><b>Base de lojas</b><span class="ds">Rede, cidade e estado de cada loja que vende</span></button>
+  <button type="button" data-tog class="st" style="--i:6"><span class="n">5</span><b>Book de fotos</b><span class="ds">Fachada e peça, loja a loja, da execução</span></button>
  </div>
  <div class="fonte">Fonte: briefing da Pokémon à 75 LAB, 16/10/2026; indicadores do Painel de instalações.</div>
  <aside class="roteiro" hidden>Cinco medidas, as mesmas que a Gabriela pediu no briefing. Tempo de implantação: quantos dias entre a saída da onda e o registro em cada loja. Lojas instaladas, contra as planejadas. Lojas positivadas: quais têm material e quais não têm. Base de lojas: rede, cidade e estado de cada loja que vende Pokémon. E o book de fotos da execução. Tudo isso já existe como campo ou indicador no painel que acabamos de ver. Não é opinião sobre a COPAG: é prova compartilhada. E o melhor vem na sequência: o mapa de lojas.</aside>
@@ -711,9 +882,9 @@ html.k-js:not(.k-mob) .slide:not(.on){pointer-events:none}
 
 <!-- 10 MAPA -->
 <section class="slide" id="s10" data-titulo="Mapa de lojas" data-capitulo="Mapa de lojas" data-transicao="deslize">
- <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">10 / 12</div>
+ <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">14 / 16</div>
  <h2 class="t-m s10h st" style="--i:0">Os registros viram o <em>mapa de lojas</em> que a Pokémon não tinha.</h2>
- <div class="map st" style="--i:1"><img class="z" src="assets/14-oficina-1792170975495-sys-d3.jpg" alt="Mapa de lojas positivadas no painel, com dados de exemplo"></div>
+ <div class="map st" style="--i:1"><img class="z" src="assets/18-oficina-1792170975495-sys-d3.jpg" alt="Mapa de lojas positivadas no painel, com dados de exemplo"></div>
  <div class="q qa st" style="--i:2"><span class="qn num"><span data-conta="3">3</span> perguntas</span><h3>Loja com material vende mais?</h3><p>Cruza a positivação com a venda que a Pokémon tiver por loja ou região.</p></div>
  <div class="q qb st" style="--i:3"><h3>Quem mais vende tem mais material?</h3><p>Compara a presença de material com a venda de cada região.</p></div>
  <div class="q qc st" style="--i:4"><h3>Que loja importante ficou sem?</h3><p>Lojas-chave da lista da Pokémon que não aparecem com registro.</p></div>
@@ -724,7 +895,7 @@ html.k-js:not(.k-mob) .slide:not(.on){pointer-events:none}
 
 <!-- 11 CRONOGRAMA -->
 <section class="slide" id="s11" data-titulo="Cronograma" data-capitulo="Cronograma" data-transicao="corte">
- <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">11 / 12</div>
+ <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon"><i></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB"></div><div class="pg">15 / 16</div>
  <h2 class="t-m s11h st" style="--i:0">A auditoria entra na onda <em>sem atrasar</em> a COPAG.</h2>
  <div class="gantt">
   <div class="gh"><span></span><b>Antes da saída</b><b>Semanas 0 a 2</b><b>Fechamento</b><b>Depois</b></div>
@@ -733,18 +904,19 @@ html.k-js:not(.k-mob) .slide:not(.on){pointer-events:none}
 <div class="gr st" style="--i:3"><div class="gl">COPAG instala e cada QR lido vira registro</div><div class="gb b2" style="grid-column:3/4;--d:1.20s"><span>semanas 0 a 2</span></div></div>
 <div class="gr st" style="--i:4"><div class="gl">Link ao vivo, aberto no primeiro registro</div><div class="gb b3" style="grid-column:3/5;--d:1.55s"><span>em paralelo</span></div></div>
 <div class="gr st" style="--i:5"><div class="gl">Relatório, mapa de lojas e book de fotos</div><div class="gb b4" style="grid-column:4/5;--d:1.90s"><span>no fechamento</span></div></div>
-<div class="gr st" style="--i:6"><div class="gl">Revisita dos displays pesados</div><div class="gb b5" style="grid-column:5/6;--d:2.25s"><span>depois da onda</span></div></div>
+<div class="gr st" style="--i:6"><div class="gl">TAG GPS acompanha os displays pesados</div><div class="gb b5" style="grid-column:3/6;--d:2.25s"><span>sempre ligada, durante a campanha</span></div></div>
 
  </div>
  <div class="fonte">Fonte: proposta 75 LAB para a Pokémon. As semanas se contam a partir da saída da onda, conforme a data de saída que a COPAG confirmar.</div>
- <aside class="roteiro" hidden>O relógio é o da onda. Antes da saída da COPAG, criamos o projeto da Pokémon no sistema, geramos a etiqueta, enviamos a quem produz as peças e ela é colada na expedição. Isso é em sequência, e é pouca coisa. Nas semanas zero a dois, a COPAG instala e cada QR lido vira um registro. O link ao vivo abre no primeiro registro, em paralelo. No fechamento, entregamos o relatório, o mapa de lojas e o book de fotos. Depois, os displays pesados são conferidos em revisita. As datas fecham quando a COPAG confirmar a saída da onda.</aside>
+ <aside class="roteiro" hidden>O relógio é o da onda. Antes da saída da COPAG, criamos o projeto da Pokémon no sistema, geramos a etiqueta, enviamos a quem produz as peças e ela é colada na expedição. Isso é em sequência, e é pouca coisa. Nas semanas zero a dois, a COPAG instala e cada QR lido vira um registro. O link ao vivo abre no primeiro registro, em paralelo. No fechamento, entregamos o relatório, o mapa de lojas e o book de fotos. Em paralelo, a TAG GPS acompanha os displays pesados durante toda a campanha. As datas fecham quando a COPAG confirmar a saída da onda.</aside>
 </section>
 
 <!-- 12 FECHAMENTO -->
 <section class="slide" id="s12" data-titulo="Fechamento" data-capitulo="Fechamento" data-transicao="cortina" data-ui="claro">
- <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon" style="background:#fff;border-radius:8px;padding:4px 8px"><i style="background:rgba(255,255,255,.3)"></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB" style="filter:invert(1)"></div><div class="pg">12 / 12</div>
+ <div class="hdr"><img src="assets/01-oficina-1792159617893-logo.png" alt="Logo Pokémon" style="background:#fff;border-radius:8px;padding:4px 8px"><i style="background:rgba(255,255,255,.3)"></i><img class="l75" src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB" style="filter:invert(1)"></div><div class="pg">16 / 16</div>
  <h1 class="st" style="--i:0">Ideia boa é a que acontece. <em>E a que se prova.</em></h1>
- <div class="logo-card st" style="--i:2"><img src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB" style="max-width:200px"><p>Próximo passo: 30 minutos para alinhar a lista de lojas e as peças da onda, com quem vai produzi-las.</p></div>
+ <div class="logo-card st" style="--i:2"><img src="assets/02-oficina-1792160291835-logo75-black.png" alt="Logo 75 LAB" style="max-width:200px"></div>
+ <p class="prox st" style="--i:3">Próximo passo: 30 minutos para alinhar a lista de lojas e as peças da onda, com quem vai produzi-las.</p>
  <div class="inst st" style="--i:3">
   <div><b>Razão social</b>75 LAB Estratégia, Design e Produção Ltda<br>CNPJ 55.470.982/0001-77</div>
   <div><b>Endereço</b>CENU · Torre Norte<br>Av. das Nações Unidas, 12.901, Brooklin<br>São Paulo, SP · 04578-910</div>
@@ -764,7 +936,7 @@ document.querySelectorAll('[data-tog]').forEach(function(b){b.addEventListener('
 <div id="painel-roteiro" data-modo-apresentador hidden style="position:fixed;left:16px;right:16px;bottom:16px;max-height:38vh;overflow:auto;z-index:99999;background:rgba(17,17,17,.94);color:#f4f4f0;font:16px/1.5 'Space Grotesk',Arial,sans-serif;padding:16px 20px;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.35)"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:6px"><b id="painel-roteiro-t" style="font:700 13px 'Space Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:#C0EE4E">Roteiro</b><button type="button" onclick="document.getElementById('painel-roteiro').hidden=true" aria-label="Fechar roteiro" style="min-width:44px;min-height:44px;background:none;border:1px solid #555;color:#fff;border-radius:8px;cursor:pointer">×</button></div><div id="painel-roteiro-x"></div></div>
 <button type="button" id="botao-roteiro" aria-label="Abrir o roteiro de fala" style="position:fixed;right:16px;top:16px;z-index:99998;min-width:44px;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid rgba(0,0,0,.15);background:rgba(255,255,255,.85);font:600 13px 'Space Grotesk',Arial,sans-serif;cursor:pointer;opacity:.55">Roteiro</button>
 <script>(function(){var P=document.getElementById('painel-roteiro'),X=document.getElementById('painel-roteiro-x'),T=document.getElementById('painel-roteiro-t');function atual(){var s=[].slice.call(document.querySelectorAll('.slide, section.tela, [data-slide]'));var v=s.filter(function(e){var c=getComputedStyle(e),r=e.getBoundingClientRect();return c.display!=='none'&&c.visibility!=='hidden'&&parseFloat(c.opacity||'1')>.3&&r.bottom>0&&r.top<innerHeight})[0];return {s:v,i:s.indexOf(v)}}function abrir(){var a=atual();if(!a.s)return;var r=a.s.querySelector('.roteiro');X.textContent=r?r.textContent.replace(/\s+/g,' ').trim():'Sem roteiro nesta tela.';T.textContent='Roteiro · tela '+(a.i+1);P.hidden=false}document.getElementById('botao-roteiro').onclick=function(){P.hidden?abrir():P.hidden=true};addEventListener('keydown',function(e){if((e.key==='r'||e.key==='R')&&!e.metaKey&&!e.ctrlKey){P.hidden?abrir():P.hidden=true}else if(!P.hidden&&/Arrow|Page| /.test(e.key)){setTimeout(abrir,60)}});})();</script>
-<script data-kit-deck-js="1.0.0">
+<script data-kit-deck-js="1.1.0">
 /* =====================================================================
    KIT DE DECK 75 LAB · v1.0.0 (13/10/2026) · motor + componentes
    Origem: código dos decks Parmalat Fit Hub e Lactalis Food Service.
