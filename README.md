@@ -1,4 +1,4 @@
-# Deck Pokémon · auditoria da onda com QR
+# Deck Pokémon · auditoria da onda com QR (12 telas)
 
 Apresentação da 75 LAB publicada em https://projetos.75lab.com.br/pokemon-auditoria-qr/
 

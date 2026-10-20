@@ -276,6 +276,17 @@ body.k-hov.k-rot #k-cur span{opacity:1}
 .k-peca-benef span{font-size:14px;line-height:1.4}
 
 /* conceito explicado (One Shot, On Timing, Códice, ClickLab...): o que é, como funciona e benefício, com fluxo de ícones */
+/* 11. solução em cartões (deck enxuto, 20/10/2026) */
+.k-solucao{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:26px;margin-top:34px}
+.k-sol-peca{display:flex;flex-direction:column;gap:12px;min-width:0}
+.k-sol-peca figure{position:relative;margin:0;aspect-ratio:4/3;overflow:hidden;background:var(--k-papel-2)}
+.k-sol-peca figure>img[data-img="cena"]{display:block;width:100%;height:100%;object-fit:cover}
+.k-sol-peca .k-sol-recorte{position:absolute;right:12px;bottom:12px;width:26%;aspect-ratio:1;object-fit:contain;background:#fff;padding:8px;box-shadow:0 6px 20px rgba(0,0,0,.18)}
+.k-resolve{position:absolute;left:12px;top:12px;display:inline-flex;align-items:center;gap:8px;padding:7px 12px;background:var(--k-marca);color:var(--k-marca-txt);font:700 13px/1 'Space Mono',monospace;text-transform:uppercase;letter-spacing:.04em}
+.k-resolve svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
+.k-sol-peca h3{margin:4px 0 0;font-size:28px;line-height:1.05}
+.k-sol-peca p{margin:0;font-size:18px;line-height:1.4;opacity:.85}
+@media (max-width:820px){.k-solucao{grid-template-columns:1fr}}
 .k-conceito{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .k-conceito>div{padding:22px 22px 24px;border-top:4px solid var(--k-marca-2)}
 .k-escuro .k-conceito>div{border-top-color:var(--k-marca)}
@@ -780,7 +791,31 @@ html.k-mob #sim .sim-sum,html.bc-cel #sim .sim-sum{font-size:17px}
 html.k-mob #sim .tag,html.bc-cel #sim .tag{font-size:16px}
 html.k-mob #sim .sim-hint,html.bc-cel #sim .sim-hint{font-size:16px}
 @media (prefers-reduced-motion:reduce){#sim .sim-bar i{transition:none}}
-</style></head>
+</style><style data-v16="">
+/* v16: ajuste de tamanho de fonte e quebra de linha (EN e PT) para nada cortar nem sair da caixa; só computador (>=900px) */
+@media (min-width:900px){
+#s1 h1{font-size:106px;margin:16px 0 22px}
+html[lang="en"] #s1 h1{font-size:92px;line-height:1}
+html[lang="en"] #s1 .lede{font-size:24px}
+#s12 h1{font-size:128px;width:1000px}
+html[lang="en"] #s12 h1{font-size:112px;width:1020px;line-height:1}
+html[lang="en"] #s12 .inst{font-size:17px;gap:10px 40px}
+html[lang="en"] .t-m{font-size:60px}
+html[lang="en"] .t-l{font-size:60px}
+.pcl2{width:596px}
+.pcl2 h2.t-m{font-size:54px;margin:6px 0 10px!important}
+.pcl2 .pcb{padding:9px 0}
+.pcl2 .pcb p{font-size:18px;line-height:1.25}
+.pcl2 .pcb h3{font-size:24px;margin-bottom:2px}
+html[lang="en"] .pcl2 h2.t-m{font-size:50px;margin:6px 0 10px!important}
+html[lang="en"] .pcb{padding:9px 0;gap:14px}
+html[lang="en"] .pcb h3{font-size:24px;margin-bottom:2px}
+html[lang="en"] .pcb p{font-size:17px;line-height:1.25}
+html[lang="en"] .pcl2 .k{font-size:14px}
+}
+@media (max-width:899px){.sim-n{font-size:clamp(34px,10.5vw,64px)!important;white-space:nowrap}}
+</style>
+</head>
 <body data-cliente="Pokémon">
 <div id="palco">
 <!-- 1 CAPA -->
